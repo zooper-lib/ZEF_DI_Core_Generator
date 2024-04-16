@@ -1,0 +1,22 @@
+targets:
+  $default:
+    builders:
+      zef_di_abstractions_generator|dependencyBuilder:
+        enabled: true
+
+builders:
+  information_collector:
+    import: "package:zef_di_abstractions_generator/zef_di_abstractions_generator.dart"
+    builder_factories: ["informationCollectorBuilder"]
+    build_extensions: { ".dart": [".info.json"] }
+    auto_apply: dependents
+    build_to: cache
+    applies_builders: ["zef_di_abstractions_generator:code_generator"]
+
+  code_generator:
+    import: "package:zef_di_abstractions_generator/zef_di_abstractions_generator.dart"
+    builder_factories: ["codeGeneratorBuilder"]
+    build_extensions: { "$lib$": ["aggregate.dart"] }
+    auto_apply: dependents
+    build_to: source
+    required_inputs: ["**/*.info.json"]

@@ -1,0 +1,21 @@
+name: example
+publish_to: "none"
+
+environment:
+  sdk: ^3.0.5
+
+dependencies:
+  #zef_di_abstractions: ^3.0.0
+  zef_di_core:
+    path: ../../zef_di_core
+ 
+  zef_helpers_lazy: ^1.0.0
+
+dev_dependencies:
+  lints: ^3.0.0
+  test: ^1.24.0
+
+  build_runner:
+
+  zef_di_abstractions_generator:
+    path: ../

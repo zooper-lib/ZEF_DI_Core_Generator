@@ -1,0 +1,40 @@
+name: zef_di_abstractions_generator
+description: A code generator for the library zef_di_abstractions.
+version: 2.0.1
+homepage: https://www.zooper.dev
+repository: https://github.com/zooper-lib/ZEF_DI_Abstractions_Generator
+topics:
+  - dependency-injection
+  - di
+  - injection
+  - ioc
+  - inversion-of-control
+funding:
+  - https://buymeacoffee.com/zooperlib
+
+environment:
+  sdk: ^3.0.5
+
+dependencies:
+  analyzer: ^6.2.0
+  build: ^2.4.1
+  source_gen: ^1.5.0
+  glob: ^2.1.2
+  dart_style: ^2.3.6
+
+  collection: ^1.18.0
+  path: ^1.8.0
+
+  # zef_di_abstractions: ^3.0.0
+  zef_di_core:
+    path: ../zef_di_core
+
+  zef_helpers_lazy: ^1.0.0
+
+dev_dependencies:
+  lints: ^3.0.0
+  test: ^1.24.0
+
+  build_runner:
+
+  mockito: ^5.4.4
