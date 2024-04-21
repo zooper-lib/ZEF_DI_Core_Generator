@@ -29,7 +29,10 @@ class ModuleRegistration extends RegistrationData {
   }
 
   factory ModuleRegistration.fromJson(Map<String, dynamic> json) {
-    List<TypeRegistration> registrations = (json['registrations'] as List<dynamic>? ?? []).map((e) => TypeRegistration.fromJson(e as Map<String, dynamic>)).toList();
+    List<TypeRegistration> registrations =
+        (json['registrations'] as List<dynamic>? ?? [])
+            .map((e) => TypeRegistration.fromJson(e as Map<String, dynamic>))
+            .toList();
 
     return ModuleRegistration(
       registrations: registrations,
@@ -142,7 +145,10 @@ class SingletonData extends TypeRegistration {
   });
 
   factory SingletonData.fromJson(Map<String, dynamic> json) {
-    List<SuperTypeData> interfaces = (json['interfaces'] as List<dynamic>? ?? []).map((e) => SuperTypeData.fromJson(e as Map<String, dynamic>)).toList();
+    List<SuperTypeData> interfaces =
+        (json['interfaces'] as List<dynamic>? ?? [])
+            .map((e) => SuperTypeData.fromJson(e as Map<String, dynamic>))
+            .toList();
 
     return SingletonData(
       importPath: ImportPath.fromJson(json['importPath']),
@@ -204,7 +210,10 @@ class TransientData extends TypeRegistration {
   }
 
   factory TransientData.fromJson(Map<String, dynamic> json) {
-    List<SuperTypeData> interfaces = (json['interfaces'] as List<dynamic>? ?? []).map((e) => SuperTypeData.fromJson(e as Map<String, dynamic>)).toList();
+    List<SuperTypeData> interfaces =
+        (json['interfaces'] as List<dynamic>? ?? [])
+            .map((e) => SuperTypeData.fromJson(e as Map<String, dynamic>))
+            .toList();
 
     return TransientData(
       importPath: ImportPath.fromJson(json['importPath']),
@@ -255,7 +264,10 @@ class LazyData extends TypeRegistration {
   }
 
   factory LazyData.fromJson(Map<String, dynamic> json) {
-    List<SuperTypeData> interfaces = (json['interfaces'] as List<dynamic>? ?? []).map((e) => SuperTypeData.fromJson(e as Map<String, dynamic>)).toList();
+    List<SuperTypeData> interfaces =
+        (json['interfaces'] as List<dynamic>? ?? [])
+            .map((e) => SuperTypeData.fromJson(e as Map<String, dynamic>))
+            .toList();
 
     return LazyData(
       importPath: ImportPath.fromJson(json['importPath']),

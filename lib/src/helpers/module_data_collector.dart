@@ -13,14 +13,16 @@ import 'class_hierarchy_explorer.dart';
 import 'import_path_resolver.dart';
 
 class ModuleDataCollector {
-  static ModuleRegistration? collect(ClassElement element, BuildStep buildStep) {
+  static ModuleRegistration? collect(
+      ClassElement element, BuildStep buildStep) {
     final List<TypeRegistration> registrations = [];
 
     if (AnnotationProcessor.isDependencyModule(element) == false) {
       return null;
     }
 
-    for (var accessor in element.accessors.where((accessor) => accessor.isGetter)) {
+    for (var accessor
+        in element.accessors.where((accessor) => accessor.isGetter)) {
       // Get the reader
       var reader = _getReader(accessor, buildStep);
 
@@ -68,8 +70,13 @@ class ModuleDataCollector {
   }
 
   static ConstantReader? _getReader(Element element, BuildStep buildStep) {
-    return element.metadata.map((m) => ConstantReader(m.computeConstantValue())).firstWhereOrNull(
-          (reader) => AnnotationProcessor.isRegisterSingleton(reader) || AnnotationProcessor.isRegisterTransient(reader) || AnnotationProcessor.isRegisterLazy(reader),
+    return element.metadata
+        .map((m) => ConstantReader(m.computeConstantValue()))
+        .firstWhereOrNull(
+          (reader) =>
+              AnnotationProcessor.isRegisterSingleton(reader) ||
+              AnnotationProcessor.isRegisterTransient(reader) ||
+              AnnotationProcessor.isRegisterLazy(reader),
         );
   }
 
@@ -89,20 +96,26 @@ class ModuleDataCollector {
     final isLazy = AnnotationProcessor.isRegisterLazy(reader);
 
     // Get the super classes of the class
-    final Set<SuperTypeData> superTypes = ClassHierarchyExplorer.explore(returnTypeElement, buildStep);
+    final Set<SuperTypeData> superTypes =
+        ClassHierarchyExplorer.explore(returnTypeElement, buildStep);
 
     // Get the import path of the class
-    final ImportPath importPath = ImportPathResolver.determineImportPathForClass(returnTypeElement, buildStep);
+    final ImportPath importPath =
+        ImportPathResolver.determineImportPathForClass(
+            returnTypeElement, buildStep);
 
     // Get the annotation attributes
-    final AnnotationAttributes attributes = AnnotationProcessor.getAnnotationAttributes(element);
+    final AnnotationAttributes attributes =
+        AnnotationProcessor.getAnnotationAttributes(element);
 
     // Get the constructor
-    final ConstructorElement constructor = ConstructorProcessor.getConstructor(returnTypeElement);
+    final ConstructorElement constructor =
+        ConstructorProcessor.getConstructor(returnTypeElement);
 
     //* Since there cannot be a factory method in a getter, we can safely ignore the factory method
     //* and just use the constructor name
-    final String? constructorName = ConstructorProcessor.getConstructorNameOrNull(constructor);
+    final String? constructorName =
+        ConstructorProcessor.getConstructorNameOrNull(constructor);
 
     // Get the dependencies
     List<String> dependencies = ParameterProcessor.getUnnamedParameters(
@@ -171,26 +184,34 @@ class ModuleDataCollector {
     final isLazy = AnnotationProcessor.isRegisterLazy(reader);
 
     // Get the super classes of the class
-    final Set<SuperTypeData> superTypes = ClassHierarchyExplorer.explore(returnTypeElement, buildStep);
+    final Set<SuperTypeData> superTypes =
+        ClassHierarchyExplorer.explore(returnTypeElement, buildStep);
 
     // Get the import path of the class
-    final ImportPath importPath = ImportPathResolver.determineImportPathForClass(returnTypeElement, buildStep);
+    final ImportPath importPath =
+        ImportPathResolver.determineImportPathForClass(
+            returnTypeElement, buildStep);
 
     // Get the annotation attributes
-    final AnnotationAttributes attributes = AnnotationProcessor.getAnnotationAttributes(element);
+    final AnnotationAttributes attributes =
+        AnnotationProcessor.getAnnotationAttributes(element);
 
     // Get the constructor
-    final ConstructorElement constructor = ConstructorProcessor.getConstructor(returnTypeElement);
+    final ConstructorElement constructor =
+        ConstructorProcessor.getConstructor(returnTypeElement);
 
     //* Since there cannot be a factory method in a getter, we can safely ignore the factory method
     //* and just use the constructor name
-    final String? constructorName = ConstructorProcessor.getConstructorNameOrNull(constructor);
+    final String? constructorName =
+        ConstructorProcessor.getConstructorNameOrNull(constructor);
 
     // Get the dependencies
-    final List<String> dependencies = ParameterProcessor.getUnnamedParameters(method: element);
+    final List<String> dependencies =
+        ParameterProcessor.getUnnamedParameters(method: element);
 
     // Get the named arguments
-    final Map<String, String> namedArgs = ParameterProcessor.getNamedParameters(method: element);
+    final Map<String, String> namedArgs =
+        ParameterProcessor.getNamedParameters(method: element);
 
     if (isSingleton) {
       return SingletonData(
@@ -244,7 +265,7 @@ class ModuleDataCollector {
       // Collecting dependencies from method parameters
       return element.parameters
           .where((p) => !p.isNamed)
-          .map((p) => p.type.getDisplayString(withNullability: false))
+          .map((p) => p.type.getDisplayString(withNullability: false))>
           .toList();
     } else if (element is PropertyAccessorElement &&
         element.returnType.element is ClassElement) {

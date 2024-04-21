@@ -46,7 +46,8 @@ class TransientWithFactoryWithDependencies implements TransientService {
   TransientWithFactoryWithDependencies(this.serviceA);
 
   @RegisterFactoryMethod()
-  static TransientWithFactoryWithDependencies create(TransientNoDependencies serviceA) {
+  static TransientWithFactoryWithDependencies create(
+      TransientNoDependencies serviceA) {
     return TransientWithFactoryWithDependencies(serviceA);
   }
 
@@ -102,7 +103,8 @@ class TransientWithDependencyWithNamedArgs implements TransientService {
 }
 
 @RegisterTransient()
-class TransientWithFactoryWithDependencyWithNamedArgs implements TransientService {
+class TransientWithFactoryWithDependencyWithNamedArgs
+    implements TransientService {
   final TransientNoDependencies _dependency;
   final double someValue;
 
@@ -125,5 +127,53 @@ class TransientWithFactoryWithDependencyWithNamedArgs implements TransientServic
   @override
   void doSomething() {
     print('$TransientWithFactoryWithDependencyWithNamedArgs.doSomething');
+  }
+}
+
+@RegisterTransient()
+class TransientWithAsyncFactory implements TransientService {
+  @RegisterFactoryMethod()
+  static Future<TransientWithAsyncFactory> create() async {
+    return TransientWithAsyncFactory();
+  }
+
+  @override
+  void doSomething() {
+    print('$TransientWithAsyncFactory.doSomething');
+  }
+}
+
+@RegisterTransient()
+class TransientWithMultipleConstructors implements TransientService {
+  final double someValue;
+
+  TransientWithMultipleConstructors(this.someValue);
+
+  TransientWithMultipleConstructors.named(this.someValue);
+
+  @override
+  void doSomething() {
+    print('$TransientWithMultipleConstructors.doSomething');
+  }
+}
+
+@RegisterTransient()
+class TransientWithMultipleFactories implements TransientService {
+  final double someValue;
+
+  TransientWithMultipleFactories(this.someValue);
+
+  static TransientWithMultipleFactories factory1(double someValue) {
+    return TransientWithMultipleFactories(someValue);
+  }
+
+  static Future<TransientWithMultipleFactories> factory2(
+      double someValue) async {
+    return TransientWithMultipleFactories(someValue);
+  }
+
+  @override
+  void doSomething() {
+    print('$TransientWithMultipleFactories.doSomething');
   }
 }

@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:build/build.dart';
+import 'package:zef_di_abstractions_generator/src/generators/code_generator_factory.dart';
 import 'package:zef_di_abstractions_generator/src/helpers/import_path_resolver.dart';
 
 import '../helpers/code_formatter.dart';
-import '../helpers/code_generation_helper.dart';
 import '../helpers/registration_data_processor.dart';
 import '../models/import_path.dart';
 import '../models/import_type.dart';
@@ -29,7 +29,8 @@ class CodeGeneratorBuilder implements Builder {
   @override
   Future<void> build(BuildStep buildStep) async {
     final codeBuffer = StringBuffer();
-    final allRegistrations = await RegistrationDataProcessor.readTypeRegistration(buildStep);
+    final allRegistrations =
+        await RegistrationDataProcessor.readTypeRegistration(buildStep);
 
     _writeHeader(codeBuffer);
     _writeImports(codeBuffer, allRegistrations);
@@ -42,18 +43,22 @@ class CodeGeneratorBuilder implements Builder {
   void _writeHeader(StringBuffer buffer) {
     buffer
       ..writeln("// GENERATED CODE - DO NOT MODIFY BY HAND")
-      ..writeln("// ******************************************************************************\n")
+      ..writeln(
+          "// ******************************************************************************\n")
       ..writeln()
-      ..writeln("// ignore_for_file: implementation_imports, depend_on_referenced_packages, unused_import")
+      ..writeln(
+          "// ignore_for_file: implementation_imports, depend_on_referenced_packages, unused_import")
       ..writeln();
   }
 
-  void _writeImports(StringBuffer buffer, List<RegistrationData> registrations) {
+  void _writeImports(
+      StringBuffer buffer, List<RegistrationData> registrations) {
     final Set<ImportPath> uniqueImports = {};
 
     for (var registration in registrations) {
       // Collect import paths from registrations
-      final importPaths = ImportPathResolver.getImportPathsWithInterfaces(registration);
+      final importPaths =
+          ImportPathResolver.getImportPathsWithInterfaces(registration);
       uniqueImports.addAll(importPaths);
     }
 
@@ -77,13 +82,7 @@ class CodeGeneratorBuilder implements Builder {
     codeBuffer.writeln("Future<void> registerDependencies() async {");
 
     for (var registration in registrations) {
-      if (registration is SingletonData) {
-        codeBuffer.writeln(CodeGenerationHelper.generateSingletonRegistration(registration));
-      } else if (registration is TransientData) {
-        codeBuffer.writeln(CodeGenerationHelper.generateTransientRegistration(registration));
-      } else if (registration is LazyData) {
-        codeBuffer.writeln(CodeGenerationHelper.generateLazyRegistration(registration));
-      }
+      codeBuffer.writeln(CodeGeneratorFactory.generate(registration));
       codeBuffer.writeln();
     }
 

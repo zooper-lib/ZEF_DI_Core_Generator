@@ -35,17 +35,22 @@ class RegistrationDataCollector {
     BuildStep buildStep,
   ) {
     // Get the import path of the class
-    final ImportPath importPath = ImportPathResolver.determineImportPathForClass(classElement, buildStep);
+    final ImportPath importPath =
+        ImportPathResolver.determineImportPathForClass(classElement, buildStep);
 
     // Get the super classes of the class
-    final Set<SuperTypeData> superClasses = ClassHierarchyExplorer.explore(classElement, buildStep);
+    final Set<SuperTypeData> superClasses =
+        ClassHierarchyExplorer.explore(classElement, buildStep);
 
     // Get the Constructor
-    final ConstructorElement constructor = ConstructorProcessor.getConstructor(classElement);
+    final ConstructorElement constructor =
+        ConstructorProcessor.getConstructor(classElement);
 
     // Get the factory method
-    final MethodElement? factoryMethod = MethodProcessor.getAnnotatedFactoryMethod(classElement);
-    final String? factoryMethodName = MethodProcessor.getFactoryMethodNameOrNull(factoryMethod);
+    final MethodElement? factoryMethod =
+        MethodProcessor.getAnnotatedFactoryMethod(classElement);
+    final String? factoryMethodName =
+        MethodProcessor.getFactoryMethodNameOrNull(factoryMethod);
 
     // Determine if the factory method is async
     final bool isAsyncResolution = MethodProcessor.isAsync(factoryMethod);
@@ -71,7 +76,8 @@ class RegistrationDataCollector {
     }
 
     // Get the annotation attributes
-    final AnnotationAttributes attributes = AnnotationProcessor.getAnnotationAttributes(classElement);
+    final AnnotationAttributes attributes =
+        AnnotationProcessor.getAnnotationAttributes(classElement);
 
     return SingletonData(
       importPath: importPath,
@@ -80,7 +86,7 @@ class RegistrationDataCollector {
       isAsyncResolution: isAsyncResolution,
       factoryMethodName: factoryMethodName,
       dependencies: dependencies,
-      namedArgs: {},
+      namedArgs: namedArgs,
       name: attributes.name,
       key: attributes.key,
       environment: attributes.environment,
@@ -92,20 +98,26 @@ class RegistrationDataCollector {
     BuildStep buildStep,
   ) {
     // Get the import path of the class
-    final ImportPath importPath = ImportPathResolver.determineImportPathForClass(classElement, buildStep);
+    final ImportPath importPath =
+        ImportPathResolver.determineImportPathForClass(classElement, buildStep);
 
     // Get the super classes of the class
-    final Set<SuperTypeData> superClasses = ClassHierarchyExplorer.explore(classElement, buildStep);
+    final Set<SuperTypeData> superClasses =
+        ClassHierarchyExplorer.explore(classElement, buildStep);
 
     // Get the annotation attributes
-    final AnnotationAttributes attributes = AnnotationProcessor.getAnnotationAttributes(classElement);
+    final AnnotationAttributes attributes =
+        AnnotationProcessor.getAnnotationAttributes(classElement);
 
     // Get the Constructor
-    final ConstructorElement constructor = ConstructorProcessor.getConstructor(classElement);
+    final ConstructorElement constructor =
+        ConstructorProcessor.getConstructor(classElement);
 
     // Get the factory method
-    final MethodElement? factoryMethod = MethodProcessor.getAnnotatedFactoryMethod(classElement);
-    final String? factoryMethodName = MethodProcessor.getFactoryMethodNameOrNull(factoryMethod);
+    final MethodElement? factoryMethod =
+        MethodProcessor.getAnnotatedFactoryMethod(classElement);
+    final String? factoryMethodName =
+        MethodProcessor.getFactoryMethodNameOrNull(factoryMethod);
 
     // Determine if the factory method is async
     final bool isAsyncResolution = MethodProcessor.isAsync(factoryMethod);
@@ -133,22 +145,28 @@ class RegistrationDataCollector {
     );
   }
 
-  static LazyData _collectLazyData(ClassElement classElement, BuildStep buildStep) {
+  static LazyData _collectLazyData(
+      ClassElement classElement, BuildStep buildStep) {
     // Get the import path of the class
-    final ImportPath importPath = ImportPathResolver.determineImportPathForClass(classElement, buildStep);
+    final ImportPath importPath =
+        ImportPathResolver.determineImportPathForClass(classElement, buildStep);
 
     // Get the super classes of the class
-    final Set<SuperTypeData> superClasses = ClassHierarchyExplorer.explore(classElement, buildStep);
+    final Set<SuperTypeData> superClasses =
+        ClassHierarchyExplorer.explore(classElement, buildStep);
 
     // Get the return type of the class
     final returnType = classElement.name;
 
     // Get the Constructor
-    final ConstructorElement constructor = ConstructorProcessor.getConstructor(classElement);
+    final ConstructorElement constructor =
+        ConstructorProcessor.getConstructor(classElement);
 
     // Get the factory method
-    final MethodElement? factoryMethod = MethodProcessor.getAnnotatedFactoryMethod(classElement);
-    final String? factoryMethodName = MethodProcessor.getFactoryMethodNameOrNull(factoryMethod);
+    final MethodElement? factoryMethod =
+        MethodProcessor.getAnnotatedFactoryMethod(classElement);
+    final String? factoryMethodName =
+        MethodProcessor.getFactoryMethodNameOrNull(factoryMethod);
 
     // Determine if the factory method is async
     final bool isAsyncResolution = MethodProcessor.isAsync(factoryMethod);
@@ -160,7 +178,8 @@ class RegistrationDataCollector {
     );
 
     // Get the annotation attributes
-    final AnnotationAttributes attributes = AnnotationProcessor.getAnnotationAttributes(classElement);
+    final AnnotationAttributes attributes =
+        AnnotationProcessor.getAnnotationAttributes(classElement);
 
     return LazyData(
       importPath: importPath,

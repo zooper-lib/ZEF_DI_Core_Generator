@@ -42,8 +42,10 @@ class LazyWithFactoryWithDependencies implements LazyServices {
   LazyWithFactoryWithDependencies(this.lazyNoDependencies);
 
   @RegisterFactoryMethod()
-  static LazyWithFactoryWithDependencies create() {
-    return LazyWithFactoryWithDependencies(ServiceLocator.I.resolveSync<LazyNoDependencies>());
+  static Future<LazyWithFactoryWithDependencies> create() async {
+    return LazyWithFactoryWithDependencies(
+      await ServiceLocator.I.resolve<LazyNoDependencies>(),
+    );
   }
 
   final LazyNoDependencies lazyNoDependencies;
