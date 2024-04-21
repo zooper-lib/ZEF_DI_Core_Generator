@@ -33,7 +33,7 @@ class LazyCodeGenerator {
     // TODO: Also pass environment and other parameters
     return typeRegistration.dependencies
         .map((dep) => "await ServiceLocator.I.resolve()")
-        .join();
+        .join(', ');
   }
 
   static String _generateLazyWithFactoryRegistration(

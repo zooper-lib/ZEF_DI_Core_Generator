@@ -89,10 +89,12 @@ class TransientWithFactoryWithNamedArgs implements TransientService {
 @RegisterTransient()
 class TransientWithDependencyWithNamedArgs implements TransientService {
   final TransientNoDependencies _dependency;
+  final TransientWithFactory _dependency2;
   final double someValue;
 
   TransientWithDependencyWithNamedArgs(
-    this._dependency, {
+    this._dependency,
+    this._dependency2, {
     required this.someValue,
   });
 

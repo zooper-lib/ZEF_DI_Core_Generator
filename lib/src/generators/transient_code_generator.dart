@@ -27,7 +27,8 @@ class TransientCodeGenerator {
     final environment = EnvironmentCodeGenerator.generate(transient);
 
     // Construct the function call to the factory method with resolved dependencies and named arguments
-    String functionCall = transient.factoryMethodName == null
+    String functionCall = transient.factoryMethodName == null ||
+            transient.factoryMethodName!.isEmpty
         ? '${transient.className}($allArgs)'
         : '${transient.className}.${transient.factoryMethodName}($allArgs)';
 
@@ -48,7 +49,7 @@ class TransientCodeGenerator {
     // TODO: Also pass environment and other parameters
     return typeRegistration.dependencies
         .map((dep) => "await ServiceLocator.I.resolve(namedArgs: namedArgs)")
-        .join();
+        .join(', ');
   }
 
   static String _generateFactoryRegistration({
