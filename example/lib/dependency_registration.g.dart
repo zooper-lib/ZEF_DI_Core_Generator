@@ -137,7 +137,7 @@ Future<void> registerDependencies() async {
   );
 
   await ServiceLocator.I.registerTransient<TransientNoDependencies>(
-    (namedArgs) async => TransientNoDependencies(),
+    (namedArgs) async => const TransientNoDependencies(),
     interfaces: {TransientService},
     name: null,
     key: null,

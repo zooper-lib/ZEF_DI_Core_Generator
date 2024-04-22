@@ -21,7 +21,8 @@ class SingletonCodeGenerator {
       instance,
     );
 
-    final instanceCreation = '${instance.className}($dependenciesResolution)';
+    final instanceCreation =
+        '${instance.isConstConstructor ? 'const ' : ''} ${instance.className}($dependenciesResolution)';
 
     // Format additional registration parameters
     final interfaces = InterfacesCodeGenerator.generate(instance);

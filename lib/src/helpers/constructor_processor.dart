@@ -27,4 +27,8 @@ class ConstructorProcessor {
         .map((param) => MapEntry(
             param.name, param.type.getDisplayString(withNullability: false))));
   }
+
+  static bool isConst(ConstructorElement constructor) {
+    return constructor.isConst;
+  }
 }

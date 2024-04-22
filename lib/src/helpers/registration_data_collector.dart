@@ -46,6 +46,9 @@ class RegistrationDataCollector {
     final ConstructorElement constructor =
         ConstructorProcessor.getConstructor(classElement);
 
+    // Determine if the constructor is a const constructor
+    final isConstConstructor = ConstructorProcessor.isConst(constructor);
+
     // Get the factory method
     final MethodElement? factoryMethod =
         MethodProcessor.getAnnotatedFactoryMethod(classElement);
@@ -83,6 +86,7 @@ class RegistrationDataCollector {
       importPath: importPath,
       interfaces: superClasses.toList(),
       className: classElement.name,
+      isConstConstructor: isConstConstructor,
       isAsyncResolution: isAsyncResolution,
       factoryMethodName: factoryMethodName,
       dependencies: dependencies,
@@ -113,6 +117,9 @@ class RegistrationDataCollector {
     final ConstructorElement constructor =
         ConstructorProcessor.getConstructor(classElement);
 
+    // Determine if the constructor is a const constructor
+    final isConstConstructor = ConstructorProcessor.isConst(constructor);
+
     // Get the factory method
     final MethodElement? factoryMethod =
         MethodProcessor.getAnnotatedFactoryMethod(classElement);
@@ -135,6 +142,7 @@ class RegistrationDataCollector {
       importPath: importPath,
       interfaces: superClasses.toList(),
       className: classElement.name,
+      isConstConstructor: isConstConstructor,
       isAsyncResolution: isAsyncResolution,
       dependencies: dependencies,
       factoryMethodName: factoryMethodName,
@@ -162,6 +170,9 @@ class RegistrationDataCollector {
     final ConstructorElement constructor =
         ConstructorProcessor.getConstructor(classElement);
 
+    // Determine if the constructor is a const constructor
+    final isConstConstructor = ConstructorProcessor.isConst(constructor);
+
     // Get the factory method
     final MethodElement? factoryMethod =
         MethodProcessor.getAnnotatedFactoryMethod(classElement);
@@ -184,6 +195,7 @@ class RegistrationDataCollector {
     return LazyData(
       importPath: importPath,
       className: classElement.name,
+      isConstConstructor: isConstConstructor,
       isAsyncResolution: isAsyncResolution,
       returnType: returnType,
       factoryMethodName: factoryMethodName,

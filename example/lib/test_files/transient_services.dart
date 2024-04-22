@@ -8,6 +8,8 @@ abstract class TransientService {
 
 @RegisterTransient()
 class TransientNoDependencies implements TransientService {
+  const TransientNoDependencies();
+
   @override
   void doSomething() {
     print('$TransientNoDependencies.doSomething');
@@ -16,6 +18,8 @@ class TransientNoDependencies implements TransientService {
 
 @RegisterTransient()
 class TransientWithFactory implements TransientService {
+  const TransientWithFactory();
+
   @RegisterFactoryMethod()
   static TransientWithFactory create() {
     return TransientWithFactory();
@@ -90,7 +94,7 @@ class TransientWithFactoryWithNamedArgs implements TransientService {
 class TransientWithDependencyWithNamedArgs implements TransientService {
   final TransientNoDependencies _dependency;
   final TransientWithFactory _dependency2;
-  final double someValue;
+  final double? someValue;
 
   TransientWithDependencyWithNamedArgs(
     this._dependency,
@@ -108,7 +112,7 @@ class TransientWithDependencyWithNamedArgs implements TransientService {
 class TransientWithFactoryWithDependencyWithNamedArgs
     implements TransientService {
   final TransientNoDependencies _dependency;
-  final double someValue;
+  final double? someValue;
 
   TransientWithFactoryWithDependencyWithNamedArgs(
     this._dependency,
@@ -118,7 +122,7 @@ class TransientWithFactoryWithDependencyWithNamedArgs
   @RegisterFactoryMethod()
   static TransientWithFactoryWithDependencyWithNamedArgs create(
     TransientNoDependencies dependency, {
-    required double someValue,
+    required double? someValue,
   }) {
     return TransientWithFactoryWithDependencyWithNamedArgs(
       dependency,

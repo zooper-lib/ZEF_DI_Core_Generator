@@ -16,27 +16,20 @@ class TransientCodeGenerator {
     // Prepare the string for named arguments, if any
     String namedArgs = NamedArgsCodeGenerator.generate(transient);
 
-    // Combine dependencies and named arguments, if needed
-    String allArgs =
-        [dependencies, namedArgs].where((arg) => arg.isNotEmpty).join(', ');
-
     // Format additional registration parameters
     final interfaces = InterfacesCodeGenerator.generate(transient);
     final name = NameCodeGenerator.generate(transient);
     final key = KeyCodeGenerator.generate(transient);
     final environment = EnvironmentCodeGenerator.generate(transient);
 
-    // Construct the function call to the factory method with resolved dependencies and named arguments
-    String functionCall = transient.factoryMethodName == null ||
-            transient.factoryMethodName!.isEmpty
-        ? '${transient.className}($allArgs)'
-        : '${transient.className}.${transient.factoryMethodName}($allArgs)';
-
     return _generateFactoryRegistration(
       registrationTypeName: 'Transient',
+      dependencies: dependencies,
+      namedArgs: namedArgs,
+      isConstConstructor: transient.isConstConstructor,
       isAsyncResolution: transient.isAsyncResolution,
       className: transient.className,
-      instanceCreation: functionCall,
+      factoryMethodName: transient.factoryMethodName,
       interfaces: interfaces,
       name: name,
       key: key,
@@ -56,17 +49,31 @@ class TransientCodeGenerator {
     required String registrationTypeName,
     required bool isAsyncResolution,
     required String className,
-    required String instanceCreation,
+    required bool isConstConstructor,
+    required String? factoryMethodName,
+    required String dependencies,
+    required String namedArgs,
     required String interfaces,
     required String name,
     required String key,
     required String environment,
   }) {
+    // Combine dependencies and named arguments, if needed
+    String allArgs =
+        [dependencies, namedArgs].where((arg) => arg.isNotEmpty).join(', ');
+
+    final bool includeConst =
+        (factoryMethodName == null || factoryMethodName.isEmpty) &&
+            isConstConstructor;
+
+    String functionCall =
+        '${includeConst ? 'const ' : ''} $className${factoryMethodName == null || factoryMethodName.isEmpty ? '' : '.$factoryMethodName'}($allArgs)';
+
     final String awaitKeyword = isAsyncResolution ? 'await' : '';
 
     return '''
 await ServiceLocator.I.register$registrationTypeName<$className>(
-    (namedArgs) async => $awaitKeyword $instanceCreation,
+    (namedArgs) async => $awaitKeyword $functionCall,
     $interfaces,
     $name,
     $key,

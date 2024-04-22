@@ -48,6 +48,7 @@ class ModuleRegistration extends RegistrationData {
 abstract class TypeRegistration extends RegistrationData {
   final ImportPath importPath;
   final String className;
+  final bool isConstConstructor;
   final bool isAsyncResolution;
   final List<String> dependencies;
   final List<SuperTypeData> interfaces;
@@ -58,6 +59,7 @@ abstract class TypeRegistration extends RegistrationData {
   TypeRegistration({
     required this.importPath,
     required this.className,
+    required this.isConstConstructor,
     required this.isAsyncResolution,
     required this.dependencies,
     this.interfaces = const [],
@@ -71,6 +73,7 @@ abstract class TypeRegistration extends RegistrationData {
     return {
       'importPath': importPath.toJson(),
       'className': className,
+      'isConstConstructor': isConstConstructor,
       'isAsyncResolution': isAsyncResolution,
       'dependencies': dependencies,
       'interfaces': interfaces,
@@ -134,6 +137,7 @@ class SingletonData extends TypeRegistration {
   SingletonData({
     required super.importPath,
     required super.className,
+    required super.isConstConstructor,
     required super.isAsyncResolution,
     required super.dependencies,
     required this.factoryMethodName,
@@ -153,6 +157,7 @@ class SingletonData extends TypeRegistration {
     return SingletonData(
       importPath: ImportPath.fromJson(json['importPath']),
       className: json['className'],
+      isConstConstructor: json['isConstConstructor'],
       isAsyncResolution: json['isAsyncResolution'],
       interfaces: interfaces,
       name: json['name'],
@@ -188,6 +193,7 @@ class TransientData extends TypeRegistration {
   TransientData({
     required super.importPath,
     required super.className,
+    required super.isConstConstructor,
     required super.isAsyncResolution,
     required super.dependencies,
     required this.factoryMethodName,
@@ -218,6 +224,7 @@ class TransientData extends TypeRegistration {
     return TransientData(
       importPath: ImportPath.fromJson(json['importPath']),
       className: json['className'],
+      isConstConstructor: json['isConstConstructor'],
       isAsyncResolution: json['isAsyncResolution'],
       dependencies: List<String>.from(json['dependencies'] ?? []),
       factoryMethodName: json['factoryMethod'],
@@ -242,6 +249,7 @@ class LazyData extends TypeRegistration {
   LazyData({
     required super.importPath,
     required super.className,
+    required super.isConstConstructor,
     required super.isAsyncResolution,
     required this.returnType,
     required this.factoryMethodName,
@@ -272,6 +280,7 @@ class LazyData extends TypeRegistration {
     return LazyData(
       importPath: ImportPath.fromJson(json['importPath']),
       className: json['className'],
+      isConstConstructor: json['isConstConstructor'],
       isAsyncResolution: json['isAsyncResolution'],
       returnType: json['returnType'] as String,
       factoryMethodName: json['factoryMethod'],

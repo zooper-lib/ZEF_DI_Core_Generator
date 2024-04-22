@@ -112,6 +112,9 @@ class ModuleDataCollector {
     final ConstructorElement constructor =
         ConstructorProcessor.getConstructor(returnTypeElement);
 
+    // Determine if the constructor is a const constructor
+    final isConstConstructor = ConstructorProcessor.isConst(constructor);
+
     //* Since there cannot be a factory method in a getter, we can safely ignore the factory method
     //* and just use the constructor name
     final String? constructorName =
@@ -129,6 +132,7 @@ class ModuleDataCollector {
       return SingletonData(
         importPath: importPath,
         className: returnTypeElement.name,
+        isConstConstructor: isConstConstructor,
         factoryMethodName: constructorName,
         isAsyncResolution: false,
         dependencies: dependencies,
@@ -142,6 +146,7 @@ class ModuleDataCollector {
       return TransientData(
         importPath: importPath,
         className: returnTypeElement.name,
+        isConstConstructor: isConstConstructor,
         isAsyncResolution: false,
         factoryMethodName: constructorName,
         dependencies: dependencies,
@@ -155,6 +160,7 @@ class ModuleDataCollector {
       return LazyData(
         importPath: importPath,
         className: returnTypeElement.name,
+        isConstConstructor: isConstConstructor,
         isAsyncResolution: false,
         returnType: returnTypeElement.name,
         factoryMethodName: constructorName,
@@ -205,6 +211,9 @@ class ModuleDataCollector {
     final String? constructorName =
         ConstructorProcessor.getConstructorNameOrNull(constructor);
 
+    // Determine if the constructor is a const constructor
+    final isConstConstructor = ConstructorProcessor.isConst(constructor);
+
     // Get the dependencies
     final List<String> dependencies =
         ParameterProcessor.getUnnamedParameters(method: element);
@@ -217,6 +226,7 @@ class ModuleDataCollector {
       return SingletonData(
         importPath: importPath,
         className: returnTypeElement.name,
+        isConstConstructor: isConstConstructor,
         // TODO: Check this
         isAsyncResolution: false,
         factoryMethodName: constructorName,
@@ -231,6 +241,7 @@ class ModuleDataCollector {
       return TransientData(
         importPath: importPath,
         className: returnTypeElement.name,
+        isConstConstructor: isConstConstructor,
         // TODO: Check this
         isAsyncResolution: false,
         factoryMethodName: constructorName,
@@ -245,6 +256,7 @@ class ModuleDataCollector {
       return LazyData(
         importPath: importPath,
         className: returnTypeElement.name,
+        isConstConstructor: isConstConstructor,
         // TODO: Check this
         isAsyncResolution: false,
         returnType: returnTypeElement.name,
