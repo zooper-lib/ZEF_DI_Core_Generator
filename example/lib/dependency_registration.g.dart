@@ -21,7 +21,7 @@ Future<void> registerDependencies() async {
   );
 
   await ServiceLocator.I.registerSingletonFactory<ModuleWithFactory>(
-    () async => ModuleWithFactory.create(),
+    (Map<String, dynamic> args) async => ModuleWithFactory.create(),
     interfaces: null,
     name: null,
     key: null,
@@ -45,7 +45,7 @@ Future<void> registerDependencies() async {
   );
 
   await ServiceLocator.I.registerSingletonFactory<SingletonWithFactory>(
-    () async => SingletonWithFactory.create(),
+    (Map<String, dynamic> args) async => SingletonWithFactory.create(),
     interfaces: {SingletonService},
     name: null,
     key: null,
@@ -62,17 +62,18 @@ Future<void> registerDependencies() async {
 
   await ServiceLocator.I
       .registerSingletonFactory<SingletonWithFactoryWithDependencies>(
-    () async => SingletonWithFactoryWithDependencies.create(
-        await ServiceLocator.I.resolve()),
+    (Map<String, dynamic> args) async =>
+        SingletonWithFactoryWithDependencies.create(
+            await ServiceLocator.I.resolve()),
     interfaces: {SingletonService},
     name: null,
     key: null,
     environment: null,
   );
 
-  await ServiceLocator.I.registerTransient<ModuleWithNamedArgs>(
-    (namedArgs) async => ModuleWithNamedArgs(
-      someValue: namedArgs['someValue'],
+  await ServiceLocator.I.registerTransient<ModuleWithArgs>(
+    (args) async => ModuleWithArgs(
+      someValue: args['someValue'],
     ),
     interfaces: null,
     name: null,
@@ -81,8 +82,8 @@ Future<void> registerDependencies() async {
   );
 
   await ServiceLocator.I.registerTransient<ModuleWithDependency>(
-    (namedArgs) async => ModuleWithDependency(
-        await ServiceLocator.I.resolve(namedArgs: namedArgs)),
+    (args) async =>
+        ModuleWithDependency(await ServiceLocator.I.resolve(args: args)),
     interfaces: null,
     name: null,
     key: null,
@@ -137,7 +138,7 @@ Future<void> registerDependencies() async {
   );
 
   await ServiceLocator.I.registerTransient<TransientNoDependencies>(
-    (namedArgs) async => const TransientNoDependencies(),
+    (args) async => const TransientNoDependencies(),
     interfaces: {TransientService},
     name: null,
     key: null,
@@ -145,7 +146,7 @@ Future<void> registerDependencies() async {
   );
 
   await ServiceLocator.I.registerTransient<TransientWithFactory>(
-    (namedArgs) async => TransientWithFactory.create(),
+    (args) async => TransientWithFactory.create(),
     interfaces: {TransientService},
     name: null,
     key: null,
@@ -153,8 +154,8 @@ Future<void> registerDependencies() async {
   );
 
   await ServiceLocator.I.registerTransient<TransientWithDependencies>(
-    (namedArgs) async => TransientWithDependencies(
-        await ServiceLocator.I.resolve(namedArgs: namedArgs)),
+    (args) async =>
+        TransientWithDependencies(await ServiceLocator.I.resolve(args: args)),
     interfaces: {TransientService},
     name: null,
     key: null,
@@ -163,17 +164,17 @@ Future<void> registerDependencies() async {
 
   await ServiceLocator.I
       .registerTransient<TransientWithFactoryWithDependencies>(
-    (namedArgs) async => TransientWithFactoryWithDependencies.create(
-        await ServiceLocator.I.resolve(namedArgs: namedArgs)),
+    (args) async => TransientWithFactoryWithDependencies.create(
+        await ServiceLocator.I.resolve(args: args)),
     interfaces: {TransientService},
     name: null,
     key: null,
     environment: null,
   );
 
-  await ServiceLocator.I.registerTransient<TransientWithNamedArgs>(
-    (namedArgs) async => TransientWithNamedArgs(
-      someValue: namedArgs['someValue'],
+  await ServiceLocator.I.registerTransient<TransientWithArgs>(
+    (args) async => TransientWithArgs(
+      someValue: args['someValue'],
     ),
     interfaces: {TransientService},
     name: null,
@@ -181,9 +182,21 @@ Future<void> registerDependencies() async {
     environment: null,
   );
 
-  await ServiceLocator.I.registerTransient<TransientWithFactoryWithNamedArgs>(
-    (namedArgs) async => TransientWithFactoryWithNamedArgs.create(
-      someValue: namedArgs['someValue'],
+  await ServiceLocator.I.registerTransient<TransientWithFactoryWithArgs>(
+    (args) async => TransientWithFactoryWithArgs.create(
+      someValue: args['someValue'],
+    ),
+    interfaces: {TransientService},
+    name: null,
+    key: null,
+    environment: null,
+  );
+
+  await ServiceLocator.I.registerTransient<TransientWithDependencyWithArgs>(
+    (args) async => TransientWithDependencyWithArgs(
+      await ServiceLocator.I.resolve(args: args),
+      await ServiceLocator.I.resolve(args: args),
+      someValue: args['someValue'],
     ),
     interfaces: {TransientService},
     name: null,
@@ -192,23 +205,10 @@ Future<void> registerDependencies() async {
   );
 
   await ServiceLocator.I
-      .registerTransient<TransientWithDependencyWithNamedArgs>(
-    (namedArgs) async => TransientWithDependencyWithNamedArgs(
-      await ServiceLocator.I.resolve(namedArgs: namedArgs),
-      await ServiceLocator.I.resolve(namedArgs: namedArgs),
-      someValue: namedArgs['someValue'],
-    ),
-    interfaces: {TransientService},
-    name: null,
-    key: null,
-    environment: null,
-  );
-
-  await ServiceLocator.I
-      .registerTransient<TransientWithFactoryWithDependencyWithNamedArgs>(
-    (namedArgs) async => TransientWithFactoryWithDependencyWithNamedArgs.create(
-      await ServiceLocator.I.resolve(namedArgs: namedArgs),
-      someValue: namedArgs['someValue'],
+      .registerTransient<TransientWithFactoryWithDependencyWithArgs>(
+    (args) async => TransientWithFactoryWithDependencyWithArgs.create(
+      await ServiceLocator.I.resolve(args: args),
+      someValue: args['someValue'],
     ),
     interfaces: {TransientService},
     name: null,
@@ -217,7 +217,7 @@ Future<void> registerDependencies() async {
   );
 
   await ServiceLocator.I.registerTransient<TransientWithAsyncFactory>(
-    (namedArgs) async => await TransientWithAsyncFactory.create(),
+    (args) async => await TransientWithAsyncFactory.create(),
     interfaces: {TransientService},
     name: null,
     key: null,
@@ -225,8 +225,8 @@ Future<void> registerDependencies() async {
   );
 
   await ServiceLocator.I.registerTransient<TransientWithMultipleConstructors>(
-    (namedArgs) async => TransientWithMultipleConstructors(
-        await ServiceLocator.I.resolve(namedArgs: namedArgs)),
+    (args) async => TransientWithMultipleConstructors(
+        await ServiceLocator.I.resolve(args: args)),
     interfaces: {TransientService},
     name: null,
     key: null,
@@ -234,8 +234,8 @@ Future<void> registerDependencies() async {
   );
 
   await ServiceLocator.I.registerTransient<TransientWithMultipleFactories>(
-    (namedArgs) async => TransientWithMultipleFactories(
-        await ServiceLocator.I.resolve(namedArgs: namedArgs)),
+    (args) async => TransientWithMultipleFactories(
+        await ServiceLocator.I.resolve(args: args)),
     interfaces: {TransientService},
     name: null,
     key: null,

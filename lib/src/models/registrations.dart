@@ -132,7 +132,7 @@ class SuperTypeData {
 
 class SingletonData extends TypeRegistration {
   final String? factoryMethodName;
-  final Map<String, String> namedArgs;
+  final Map<String, String> args;
 
   SingletonData({
     required super.importPath,
@@ -141,7 +141,7 @@ class SingletonData extends TypeRegistration {
     required super.isAsyncResolution,
     required super.dependencies,
     required this.factoryMethodName,
-    required this.namedArgs,
+    required this.args,
     required super.interfaces,
     required super.name,
     required super.key,
@@ -165,7 +165,7 @@ class SingletonData extends TypeRegistration {
       environment: json['environment'],
       dependencies: List<String>.from(json['dependencies'] ?? []),
       factoryMethodName: json['factoryMethodName'],
-      namedArgs: Map<String, String>.from(json['namedArgs'] ?? {}),
+      args: Map<String, String>.from(json['args'] ?? {}),
     );
   }
 
@@ -175,7 +175,7 @@ class SingletonData extends TypeRegistration {
     json.addAll({
       'type': 'singleton',
       'factoryMethodName': factoryMethodName,
-      'namedArgs': namedArgs,
+      'args': args,
     });
     return json;
   }
@@ -188,7 +188,7 @@ class SingletonData extends TypeRegistration {
 
 class TransientData extends TypeRegistration {
   final String? factoryMethodName;
-  final Map<String, String> namedArgs;
+  final Map<String, String> args;
 
   TransientData({
     required super.importPath,
@@ -197,7 +197,7 @@ class TransientData extends TypeRegistration {
     required super.isAsyncResolution,
     required super.dependencies,
     required this.factoryMethodName,
-    required this.namedArgs,
+    required this.args,
     super.interfaces,
     super.name,
     super.key,
@@ -210,7 +210,7 @@ class TransientData extends TypeRegistration {
     json.addAll({
       'type': 'transient',
       'factoryMethod': factoryMethodName,
-      'namedArgs': namedArgs,
+      'args': args,
     });
     return json;
   }
@@ -228,7 +228,7 @@ class TransientData extends TypeRegistration {
       isAsyncResolution: json['isAsyncResolution'],
       dependencies: List<String>.from(json['dependencies'] ?? []),
       factoryMethodName: json['factoryMethod'],
-      namedArgs: Map<String, String>.from(json['namedArgs'] ?? {}),
+      args: Map<String, String>.from(json['args'] ?? {}),
       interfaces: interfaces,
       name: json['name'],
       key: json['key'],
@@ -238,7 +238,7 @@ class TransientData extends TypeRegistration {
 
   @override
   String toString() {
-    return '$TransientData{importPath: $importPath, className: $className, dependencies: $dependencies, factoryMethod: $factoryMethodName, namedArgs: $namedArgs, interfaces: $interfaces, name: $name, key: $key, environment: $environment}';
+    return '$TransientData{importPath: $importPath, className: $className, dependencies: $dependencies, factoryMethod: $factoryMethodName, args: $args, interfaces: $interfaces, name: $name, key: $key, environment: $environment}';
   }
 }
 

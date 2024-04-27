@@ -26,5 +26,5 @@ abstract class ExampleModule {
       );
 
   @RegisterTransient()
-  ModuleWithNamedArgs get moduleServiceD;
+  ModuleWithArgs get moduleServiceD;
 }

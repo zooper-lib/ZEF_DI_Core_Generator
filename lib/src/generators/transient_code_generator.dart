@@ -2,7 +2,7 @@ import 'package:zef_di_abstractions_generator/src/generators/environment_code_ge
 import 'package:zef_di_abstractions_generator/src/generators/interfaces_code_generator.dart';
 import 'package:zef_di_abstractions_generator/src/generators/key_code_generator.dart';
 import 'package:zef_di_abstractions_generator/src/generators/name_code_generator.dart';
-import 'package:zef_di_abstractions_generator/src/generators/named_args_code_generator.dart';
+import 'package:zef_di_abstractions_generator/src/generators/args_code_generator.dart';
 import 'package:zef_di_abstractions_generator/src/models/registrations.dart';
 
 class TransientCodeGenerator {
@@ -10,11 +10,11 @@ class TransientCodeGenerator {
     // Initialize the dependencies resolution string for unnamed parameters
     String dependencies = _generateDependencies(
       transient,
-      transient.namedArgs,
+      transient.args,
     );
 
     // Prepare the string for named arguments, if any
-    String namedArgs = NamedArgsCodeGenerator.generate(transient);
+    String args = ArgsCodeGenerator.generate(transient);
 
     // Format additional registration parameters
     final interfaces = InterfacesCodeGenerator.generate(transient);
@@ -25,7 +25,7 @@ class TransientCodeGenerator {
     return _generateFactoryRegistration(
       registrationTypeName: 'Transient',
       dependencies: dependencies,
-      namedArgs: namedArgs,
+      args: args,
       isConstConstructor: transient.isConstConstructor,
       isAsyncResolution: transient.isAsyncResolution,
       className: transient.className,
@@ -38,10 +38,10 @@ class TransientCodeGenerator {
   }
 
   static String _generateDependencies(
-      TypeRegistration typeRegistration, Map<String, String> namedArgs) {
+      TypeRegistration typeRegistration, Map<String, String> args) {
     // TODO: Also pass environment and other parameters
     return typeRegistration.dependencies
-        .map((dep) => "await ServiceLocator.I.resolve(namedArgs: namedArgs)")
+        .map((dep) => "await ServiceLocator.I.resolve(args: args)")
         .join(', ');
   }
 
@@ -52,7 +52,7 @@ class TransientCodeGenerator {
     required bool isConstConstructor,
     required String? factoryMethodName,
     required String dependencies,
-    required String namedArgs,
+    required String args,
     required String interfaces,
     required String name,
     required String key,
@@ -60,7 +60,7 @@ class TransientCodeGenerator {
   }) {
     // Combine dependencies and named arguments, if needed
     String allArgs =
-        [dependencies, namedArgs].where((arg) => arg.isNotEmpty).join(', ');
+        [dependencies, args].where((arg) => arg.isNotEmpty).join(', ');
 
     final bool includeConst =
         (factoryMethodName == null || factoryMethodName.isEmpty) &&
@@ -73,7 +73,7 @@ class TransientCodeGenerator {
 
     return '''
 await ServiceLocator.I.register$registrationTypeName<$className>(
-    (namedArgs) async => $awaitKeyword $functionCall,
+    (args) async => $awaitKeyword $functionCall,
     $interfaces,
     $name,
     $key,

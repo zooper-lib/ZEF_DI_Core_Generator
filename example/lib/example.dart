@@ -50,24 +50,24 @@ Future<void> resolveTransients() async {
       .resolve<TransientWithFactoryWithDependencies>();
   transientWithFactoryWithDependencies.doSomething();
 
-  final transientWithNamedArgs =
-      await ServiceLocator.instance.resolve<TransientWithNamedArgs>(namedArgs: {
+  final transientWithArgs =
+      await ServiceLocator.instance.resolve<TransientWithArgs>(args: {
     'someValue': 5.0,
   });
-  transientWithNamedArgs.doSomething();
+  transientWithArgs.doSomething();
 
-  final transientWithFactoryWithNamedArgs = await ServiceLocator.instance
-      .resolve<TransientWithFactoryWithNamedArgs>(namedArgs: {
+  final transientWithFactoryWithArgs = await ServiceLocator.instance
+      .resolve<TransientWithFactoryWithArgs>(args: {
     'someValue': 5.0,
   });
-  transientWithFactoryWithNamedArgs.doSomething();
+  transientWithFactoryWithArgs.doSomething();
 
-  final transientWithFactoryWithDependencyWithNamedArgs = await ServiceLocator
+  final transientWithFactoryWithDependencyWithArgs = await ServiceLocator
       .instance
-      .resolve<TransientWithFactoryWithDependencyWithNamedArgs>(namedArgs: {
+      .resolve<TransientWithFactoryWithDependencyWithArgs>(args: {
     'someValue': 5.0,
   });
-  transientWithFactoryWithDependencyWithNamedArgs.doSomething();
+  transientWithFactoryWithDependencyWithArgs.doSomething();
 
   final transientWithAsyncFactory =
       await ServiceLocator.instance.resolve<TransientWithAsyncFactory>();

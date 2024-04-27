@@ -41,50 +41,50 @@ class ModuleWithFactoryWithDependencies {
   }
 }
 
-class ModuleWithNamedArgs {
+class ModuleWithArgs {
   final double someValue;
 
-  ModuleWithNamedArgs({required this.someValue});
+  ModuleWithArgs({required this.someValue});
 
   void doSomething() {
-    print('$ModuleWithNamedArgs.doSomething');
+    print('$ModuleWithArgs.doSomething');
   }
 }
 
-class ModuleWithFactoryWithNamedArgs {
+class ModuleWithFactoryWithArgs {
   final double someValue;
 
-  ModuleWithFactoryWithNamedArgs.create({required this.someValue});
+  ModuleWithFactoryWithArgs.create({required this.someValue});
 
   void doSomething() {
-    print('$ModuleWithFactoryWithNamedArgs.doSomething');
+    print('$ModuleWithFactoryWithArgs.doSomething');
   }
 }
 
-class ModuleWithDependencyWithNamedArgs {
+class ModuleWithDependencyWithArgs {
   final ModuleNoDependencies _dependency;
   final double someValue;
 
-  ModuleWithDependencyWithNamedArgs(
+  ModuleWithDependencyWithArgs(
     this._dependency, {
     required this.someValue,
   });
 
   void doSomething() {
-    print('$ModuleWithDependencyWithNamedArgs.doSomething');
+    print('$ModuleWithDependencyWithArgs.doSomething');
   }
 }
 
-class ModuleWithFactoryWithDependencyWithNamedArgs {
+class ModuleWithFactoryWithDependencyWithArgs {
   final ModuleNoDependencies _dependency;
   final double someValue;
 
-  ModuleWithFactoryWithDependencyWithNamedArgs.create(
+  ModuleWithFactoryWithDependencyWithArgs.create(
     this._dependency, {
     required this.someValue,
   });
 
   void doSomething() {
-    print('$ModuleWithFactoryWithDependencyWithNamedArgs.doSomething');
+    print('$ModuleWithFactoryWithDependencyWithArgs.doSomething');
   }
 }

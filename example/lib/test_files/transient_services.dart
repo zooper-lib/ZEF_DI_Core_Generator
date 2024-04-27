@@ -62,41 +62,41 @@ class TransientWithFactoryWithDependencies implements TransientService {
 }
 
 @RegisterTransient()
-class TransientWithNamedArgs implements TransientService {
+class TransientWithArgs implements TransientService {
   final double someValue;
 
-  TransientWithNamedArgs({required this.someValue});
+  TransientWithArgs({required this.someValue});
 
   @override
   void doSomething() {
-    print('$TransientWithNamedArgs.doSomething');
+    print('$TransientWithArgs.doSomething');
   }
 }
 
 @RegisterTransient()
-class TransientWithFactoryWithNamedArgs implements TransientService {
+class TransientWithFactoryWithArgs implements TransientService {
   final double someValue;
 
-  TransientWithFactoryWithNamedArgs({required this.someValue});
+  TransientWithFactoryWithArgs({required this.someValue});
 
   @RegisterFactoryMethod()
-  static TransientWithFactoryWithNamedArgs create({required double someValue}) {
-    return TransientWithFactoryWithNamedArgs(someValue: someValue);
+  static TransientWithFactoryWithArgs create({required double someValue}) {
+    return TransientWithFactoryWithArgs(someValue: someValue);
   }
 
   @override
   void doSomething() {
-    print('$TransientWithFactoryWithNamedArgs.doSomething');
+    print('$TransientWithFactoryWithArgs.doSomething');
   }
 }
 
 @RegisterTransient()
-class TransientWithDependencyWithNamedArgs implements TransientService {
+class TransientWithDependencyWithArgs implements TransientService {
   final TransientNoDependencies _dependency;
   final TransientWithFactory _dependency2;
   final double? someValue;
 
-  TransientWithDependencyWithNamedArgs(
+  TransientWithDependencyWithArgs(
     this._dependency,
     this._dependency2, {
     required this.someValue,
@@ -104,27 +104,26 @@ class TransientWithDependencyWithNamedArgs implements TransientService {
 
   @override
   void doSomething() {
-    print('$TransientWithNamedArgs.doSomething');
+    print('$TransientWithArgs.doSomething');
   }
 }
 
 @RegisterTransient()
-class TransientWithFactoryWithDependencyWithNamedArgs
-    implements TransientService {
+class TransientWithFactoryWithDependencyWithArgs implements TransientService {
   final TransientNoDependencies _dependency;
   final double? someValue;
 
-  TransientWithFactoryWithDependencyWithNamedArgs(
+  TransientWithFactoryWithDependencyWithArgs(
     this._dependency,
     this.someValue,
   );
 
   @RegisterFactoryMethod()
-  static TransientWithFactoryWithDependencyWithNamedArgs create(
+  static TransientWithFactoryWithDependencyWithArgs create(
     TransientNoDependencies dependency, {
     required double? someValue,
   }) {
-    return TransientWithFactoryWithDependencyWithNamedArgs(
+    return TransientWithFactoryWithDependencyWithArgs(
       dependency,
       someValue,
     );
@@ -132,7 +131,7 @@ class TransientWithFactoryWithDependencyWithNamedArgs
 
   @override
   void doSomething() {
-    print('$TransientWithFactoryWithDependencyWithNamedArgs.doSomething');
+    print('$TransientWithFactoryWithDependencyWithArgs.doSomething');
   }
 }
 

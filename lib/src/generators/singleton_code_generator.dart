@@ -115,7 +115,7 @@ await ServiceLocator.I.register$registrationTypeName<$className>(
 
     return '''
 await ServiceLocator.I.registerSingletonFactory<$className>(
-    () async => $awaitKeyword $instanceCreation,
+    (Map<String, dynamic> args) async => $awaitKeyword $instanceCreation,
     $interfaces,
     $name,
     $key,

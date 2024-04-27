@@ -65,13 +65,13 @@ class RegistrationDataCollector {
     );
 
     // Get the named arguments
-    Map<String, String> namedArgs = ParameterProcessor.getNamedParameters(
+    Map<String, String> args = ParameterProcessor.getNamedParameters(
       constructor: constructor,
       method: factoryMethod,
     );
 
     // Check if the class has named arguments. If so, throw an error
-    if (namedArgs.isNotEmpty) {
+    if (args.isNotEmpty) {
       throw InvalidGenerationSourceError(
         'Named arguments are not supported in Singleton classes',
         element: classElement,
@@ -90,7 +90,7 @@ class RegistrationDataCollector {
       isAsyncResolution: isAsyncResolution,
       factoryMethodName: factoryMethodName,
       dependencies: dependencies,
-      namedArgs: namedArgs,
+      args: args,
       name: attributes.name,
       key: attributes.key,
       environment: attributes.environment,
@@ -133,7 +133,7 @@ class RegistrationDataCollector {
       constructor: constructor,
       method: factoryMethod,
     );
-    Map<String, String> namedArgs = ParameterProcessor.getNamedParameters(
+    Map<String, String> args = ParameterProcessor.getNamedParameters(
       constructor: constructor,
       method: factoryMethod,
     );
@@ -146,7 +146,7 @@ class RegistrationDataCollector {
       isAsyncResolution: isAsyncResolution,
       dependencies: dependencies,
       factoryMethodName: factoryMethodName,
-      namedArgs: namedArgs,
+      args: args,
       name: attributes.name,
       key: attributes.key,
       environment: attributes.environment,

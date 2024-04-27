@@ -124,7 +124,7 @@ class ModuleDataCollector {
     List<String> dependencies = ParameterProcessor.getUnnamedParameters(
       constructor: constructor,
     );
-    Map<String, String> namedArgs = ParameterProcessor.getNamedParameters(
+    Map<String, String> args = ParameterProcessor.getNamedParameters(
       constructor: constructor,
     );
 
@@ -136,7 +136,7 @@ class ModuleDataCollector {
         factoryMethodName: constructorName,
         isAsyncResolution: false,
         dependencies: dependencies,
-        namedArgs: namedArgs,
+        args: args,
         interfaces: superTypes.toList(),
         name: attributes.name,
         key: attributes.key,
@@ -150,7 +150,7 @@ class ModuleDataCollector {
         isAsyncResolution: false,
         factoryMethodName: constructorName,
         dependencies: dependencies,
-        namedArgs: namedArgs,
+        args: args,
         interfaces: superTypes.toList(),
         name: attributes.name,
         key: attributes.key,
@@ -219,7 +219,7 @@ class ModuleDataCollector {
         ParameterProcessor.getUnnamedParameters(method: element);
 
     // Get the named arguments
-    final Map<String, String> namedArgs =
+    final Map<String, String> args =
         ParameterProcessor.getNamedParameters(method: element);
 
     if (isSingleton) {
@@ -231,7 +231,7 @@ class ModuleDataCollector {
         isAsyncResolution: false,
         factoryMethodName: constructorName,
         dependencies: dependencies,
-        namedArgs: namedArgs,
+        args: args,
         interfaces: superTypes.toList(),
         name: attributes.name,
         key: attributes.key,
@@ -246,7 +246,7 @@ class ModuleDataCollector {
         isAsyncResolution: false,
         factoryMethodName: constructorName,
         dependencies: dependencies,
-        namedArgs: namedArgs,
+        args: args,
         interfaces: superTypes.toList(),
         name: attributes.name,
         key: attributes.key,
@@ -271,39 +271,4 @@ class ModuleDataCollector {
       throw Exception("Unknown registration type.");
     }
   }
-
-  /*  static List<String> _collectDependencies(ExecutableElement element) {
-    if (element is MethodElement) {
-      // Collecting dependencies from method parameters
-      return element.parameters
-          .where((p) => !p.isNamed)
-          .map((p) => p.type.getDisplayString(withNullability: false))>
-          .toList();
-    } else if (element is PropertyAccessorElement &&
-        element.returnType.element is ClassElement) {
-      // Collecting dependencies from the constructor of the return type of a getter
-      var returnTypeElement = element.returnType.element as ClassElement;
-      return ConstructorProcessor.getConstructorParams(returnTypeElement);
-    } else {
-      return [];
-    }
-  }
-
-  // Method to collect named arguments from a module method
-  static Map<String, String> _collectNamedArgs(ExecutableElement element) {
-    if (element is MethodElement) {
-      // Collecting named arguments from method parameters
-      return {
-        for (var param in element.parameters.where((p) => p.isNamed))
-          param.name: param.type.getDisplayString(withNullability: false)
-      };
-    } else if (element is PropertyAccessorElement &&
-        element.returnType.element is ClassElement) {
-      // Collecting named arguments from the constructor of the return type of a getter
-      var returnTypeElement = element.returnType.element as ClassElement;
-      return ConstructorProcessor.getNamedParameters(returnTypeElement);
-    } else {
-      return {};
-    }
-  } */
 }
