@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      PROJECT_NAME: zef_di_abstractions_generator
+      PROJECT_NAME: zef_di_core_generator
 
     steps:
       - name: Checkout Code
