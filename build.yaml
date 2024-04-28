@@ -15,7 +15,7 @@ builders:
 
   code_generator:
     import: "package:zef_di_abstractions_generator/zef_di_abstractions_generator.dart"
-    builder_factories: ["codeGeneratorBuilder"]
+    builder_factories: ["dependencyRegistrationBuilder"]
     build_extensions: { "$lib$": ["aggregate.dart"] }
     auto_apply: dependents
     build_to: source

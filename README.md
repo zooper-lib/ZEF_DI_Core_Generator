@@ -51,7 +51,7 @@ class InstanceService {
 }
 ```
 
-After running the generator, `InstanceService` a new file will be generated under `lib/` named `dependency_registration.g.dart` with a function `registerDependencies()`:
+After running the generator, `InstanceService` a new file will be generated under `lib/` named `zef.di.g.dart` with a function `registerDependencies()`:
 
 ```dart
 void registerDependencies() {

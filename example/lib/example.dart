@@ -1,8 +1,8 @@
 import 'package:example/test_files/lazy_services.dart';
 import 'package:example/test_files/transient_services.dart';
+import 'package:example/zef.di.g.dart';
 import 'package:zef_di_core/zef_di_core.dart';
 
-import 'dependency_registration.g.dart';
 import 'test_files/singleton_services.dart';
 
 void main(List<String> arguments) async {

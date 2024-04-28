@@ -9,10 +9,10 @@ import '../models/import_path.dart';
 import '../models/import_type.dart';
 import '../models/registrations.dart';
 
-class CodeGeneratorBuilder implements Builder {
+class DependencyRegistrationBuilder implements Builder {
   @override
   Map<String, List<String>> get buildExtensions => {
-        r'$lib$': ['dependency_registration.g.dart']
+        r'$lib$': ['zef.di.g.dart']
       };
 
   final Set<ImportPath> _importedPackages = {
@@ -92,7 +92,7 @@ class CodeGeneratorBuilder implements Builder {
   Future<void> _writeGeneratedFile(BuildStep buildStep, String content) async {
     final formattedContent = CodeFormatter.formatCode(content);
     await buildStep.writeAsString(
-      AssetId(buildStep.inputId.package, 'lib/dependency_registration.g.dart'),
+      AssetId(buildStep.inputId.package, 'lib/zef.di.g.dart'),
       formattedContent,
     );
   }
