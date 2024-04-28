@@ -2,8 +2,8 @@ import 'package:path/path.dart' as p;
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
-import 'package:zef_di_abstractions_generator/src/models/import_path.dart';
-import 'package:zef_di_abstractions_generator/src/models/registrations.dart';
+import 'package:zef_di_core_generator/src/models/import_path.dart';
+import 'package:zef_di_core_generator/src/models/registrations.dart';
 
 import '../models/import_type.dart';
 

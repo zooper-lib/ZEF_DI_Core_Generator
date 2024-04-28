@@ -1,8 +1,8 @@
-import 'package:zef_di_abstractions_generator/src/generators/environment_code_generator.dart';
-import 'package:zef_di_abstractions_generator/src/generators/interfaces_code_generator.dart';
-import 'package:zef_di_abstractions_generator/src/generators/key_code_generator.dart';
-import 'package:zef_di_abstractions_generator/src/generators/name_code_generator.dart';
-import 'package:zef_di_abstractions_generator/src/models/registrations.dart';
+import 'package:zef_di_core_generator/src/generators/environment_code_generator.dart';
+import 'package:zef_di_core_generator/src/generators/interfaces_code_generator.dart';
+import 'package:zef_di_core_generator/src/generators/key_code_generator.dart';
+import 'package:zef_di_core_generator/src/generators/name_code_generator.dart';
+import 'package:zef_di_core_generator/src/models/registrations.dart';
 
 class SingletonCodeGenerator {
   static String generate(SingletonData instance) {

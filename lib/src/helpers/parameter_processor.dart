@@ -1,7 +1,7 @@
 import 'package:analyzer/dart/element/element.dart';
-import 'package:zef_di_abstractions_generator/src/helpers/accessor_processor.dart';
-import 'package:zef_di_abstractions_generator/src/helpers/constructor_processor.dart';
-import 'package:zef_di_abstractions_generator/src/helpers/method_processor.dart';
+import 'package:zef_di_core_generator/src/helpers/accessor_processor.dart';
+import 'package:zef_di_core_generator/src/helpers/constructor_processor.dart';
+import 'package:zef_di_core_generator/src/helpers/method_processor.dart';
 
 class ParameterProcessor {
   static List<String> getUnnamedParameters({

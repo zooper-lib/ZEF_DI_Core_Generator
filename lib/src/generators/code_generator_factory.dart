@@ -1,7 +1,7 @@
-import 'package:zef_di_abstractions_generator/src/generators/lazy_code_generator.dart';
-import 'package:zef_di_abstractions_generator/src/generators/singleton_code_generator.dart';
-import 'package:zef_di_abstractions_generator/src/generators/transient_code_generator.dart';
-import 'package:zef_di_abstractions_generator/src/models/registrations.dart';
+import 'package:zef_di_core_generator/src/generators/lazy_code_generator.dart';
+import 'package:zef_di_core_generator/src/generators/singleton_code_generator.dart';
+import 'package:zef_di_core_generator/src/generators/transient_code_generator.dart';
+import 'package:zef_di_core_generator/src/models/registrations.dart';
 
 class CodeGeneratorFactory {
   static String generate(RegistrationData typeRegistration) {

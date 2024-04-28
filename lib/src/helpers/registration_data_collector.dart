@@ -1,8 +1,8 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
 import 'package:source_gen/source_gen.dart';
-import 'package:zef_di_abstractions_generator/src/helpers/constructor_processor.dart';
-import 'package:zef_di_abstractions_generator/src/helpers/parameter_processor.dart';
+import 'package:zef_di_core_generator/src/helpers/constructor_processor.dart';
+import 'package:zef_di_core_generator/src/helpers/parameter_processor.dart';
 
 import '../models/annotation_attributes.dart';
 import '../models/import_path.dart';

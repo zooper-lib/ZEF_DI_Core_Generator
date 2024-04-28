@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:build/build.dart';
-import 'package:zef_di_abstractions_generator/src/generators/code_generator_factory.dart';
-import 'package:zef_di_abstractions_generator/src/helpers/import_path_resolver.dart';
+import 'package:zef_di_core_generator/src/generators/code_generator_factory.dart';
+import 'package:zef_di_core_generator/src/helpers/import_path_resolver.dart';
 
 import '../helpers/code_formatter.dart';
 import '../helpers/registration_data_processor.dart';

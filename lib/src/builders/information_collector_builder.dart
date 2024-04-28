@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
-import 'package:zef_di_abstractions_generator/src/helpers/annotation_processor.dart';
-import 'package:zef_di_abstractions_generator/src/helpers/registration_data_collector.dart';
+import 'package:zef_di_core_generator/src/helpers/annotation_processor.dart';
+import 'package:zef_di_core_generator/src/helpers/registration_data_collector.dart';
 import '../helpers/module_data_collector.dart';
 import '../models/registrations.dart';
 

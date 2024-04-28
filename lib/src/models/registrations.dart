@@ -1,4 +1,4 @@
-import 'package:zef_di_abstractions_generator/src/models/import_path.dart';
+import 'package:zef_di_core_generator/src/models/import_path.dart';
 
 abstract class RegistrationData {
   const RegistrationData();

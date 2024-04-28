@@ -1,3 +1,10 @@
+## 3.0.0
+
+- Adapted to project renaming
+- Added const constructor
+- Made all methods async
+- Multiple smaller bug fixes
+
 ## 2.0.1
 
 - Removed type argument when resolving a Singleton
