@@ -1,3 +1,4 @@
+import 'package:zef_di_core_generator/src/generators/args_code_generator.dart';
 import 'package:zef_di_core_generator/src/generators/environment_code_generator.dart';
 import 'package:zef_di_core_generator/src/generators/interfaces_code_generator.dart';
 import 'package:zef_di_core_generator/src/generators/key_code_generator.dart';
@@ -5,24 +6,24 @@ import 'package:zef_di_core_generator/src/generators/name_code_generator.dart';
 import 'package:zef_di_core_generator/src/models/registrations.dart';
 
 class SingletonCodeGenerator {
-  static String generate(SingletonData instance) {
+  static String generateRegisterFunction(SingletonData instance) {
     // Check if a factory method is provided for singleton creation
     if (instance.factoryMethodName != null &&
         instance.factoryMethodName!.isNotEmpty) {
-      return generateWithFactory(instance);
+      return _generateWithFactory(instance);
     } else {
-      return generateWithInstance(instance);
+      return _generateWithInstance(instance);
     }
   }
 
-  static String generateWithInstance(SingletonData instance) {
+  static String _generateWithInstance(SingletonData instance) {
     // Instantiate the class directly, potentially with resolved dependencies
-    String dependenciesResolution = _generateDependencies(
+    String parameters = ArgsCodeGenerator.generate(
       instance,
     );
 
     final instanceCreation =
-        '${instance.isConstConstructor ? 'const ' : ''} ${instance.className}($dependenciesResolution)';
+        '${instance.isConstConstructor ? 'const ' : ''} ${instance.className}($parameters)';
 
     // Format additional registration parameters
     final interfaces = InterfacesCodeGenerator.generate(instance);
@@ -40,7 +41,7 @@ class SingletonCodeGenerator {
         environment: environment);
   }
 
-  static String generateWithFactory(SingletonData instance) {
+  static String _generateWithFactory(SingletonData instance) {
     // Ensure a factory method name is provided
     if (instance.factoryMethodName == null ||
         instance.factoryMethodName!.isEmpty) {
@@ -49,7 +50,7 @@ class SingletonCodeGenerator {
     }
 
     // Resolve dependencies for the factory method
-    final dependencies = _generateDependencies(
+    final dependencies = ArgsCodeGenerator.generate(
       instance,
     );
 
@@ -72,13 +73,6 @@ class SingletonCodeGenerator {
       key: key,
       environment: environment,
     );
-  }
-
-  static String _generateDependencies(TypeRegistration typeRegistration) {
-    // TODO: Also pass environment and other parameters
-    return typeRegistration.dependencies
-        .map((dep) => "await ServiceLocator.I.resolve()")
-        .join(', ');
   }
 
   static String _generateInstanceRegistration({

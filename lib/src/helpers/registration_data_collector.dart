@@ -59,24 +59,24 @@ class RegistrationDataCollector {
     final bool isAsyncResolution = MethodProcessor.isAsync(factoryMethod);
 
     // Get the injectable dependencies
-    List<String> dependencies = ParameterProcessor.getUnnamedParameters(
+    final dependencies = ParameterProcessor.getParameters(
       constructor: constructor,
       method: factoryMethod,
     );
 
     // Get the named arguments
-    Map<String, String> args = ParameterProcessor.getNamedParameters(
+    /*  final args = ParameterProcessor.getNamedParameters(
       constructor: constructor,
       method: factoryMethod,
-    );
+    ); */
 
     // Check if the class has named arguments. If so, throw an error
-    if (args.isNotEmpty) {
+    /* if (args.isNotEmpty) {
       throw InvalidGenerationSourceError(
         'Named arguments are not supported in Singleton classes',
         element: classElement,
       );
-    }
+    } */
 
     // Get the annotation attributes
     final AnnotationAttributes attributes =
@@ -90,7 +90,6 @@ class RegistrationDataCollector {
       isAsyncResolution: isAsyncResolution,
       factoryMethodName: factoryMethodName,
       dependencies: dependencies,
-      args: args,
       name: attributes.name,
       key: attributes.key,
       environment: attributes.environment,
@@ -129,11 +128,7 @@ class RegistrationDataCollector {
     // Determine if the factory method is async
     final bool isAsyncResolution = MethodProcessor.isAsync(factoryMethod);
 
-    List<String> dependencies = ParameterProcessor.getUnnamedParameters(
-      constructor: constructor,
-      method: factoryMethod,
-    );
-    Map<String, String> args = ParameterProcessor.getNamedParameters(
+    final dependencies = ParameterProcessor.getParameters(
       constructor: constructor,
       method: factoryMethod,
     );
@@ -146,7 +141,6 @@ class RegistrationDataCollector {
       isAsyncResolution: isAsyncResolution,
       dependencies: dependencies,
       factoryMethodName: factoryMethodName,
-      args: args,
       name: attributes.name,
       key: attributes.key,
       environment: attributes.environment,
@@ -183,7 +177,7 @@ class RegistrationDataCollector {
     final bool isAsyncResolution = MethodProcessor.isAsync(factoryMethod);
 
     // Get the injectable dependencies
-    final List<String> dependencies = ParameterProcessor.getUnnamedParameters(
+    final dependencies = ParameterProcessor.getParameters(
       constructor: constructor,
       method: factoryMethod,
     );

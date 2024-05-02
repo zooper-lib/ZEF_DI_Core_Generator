@@ -1,3 +1,4 @@
+import 'package:zef_di_core_generator/src/generators/args_code_generator.dart';
 import 'package:zef_di_core_generator/src/generators/environment_code_generator.dart';
 import 'package:zef_di_core_generator/src/generators/interfaces_code_generator.dart';
 import 'package:zef_di_core_generator/src/generators/key_code_generator.dart';
@@ -7,7 +8,7 @@ import 'package:zef_di_core_generator/src/models/registrations.dart';
 class LazyCodeGenerator {
   static String generate(LazyData lazy) {
     // Resolve dependencies for the constructor parameters
-    final dependencies = _generateDependencies(
+    final dependencies = ArgsCodeGenerator.generate(
       lazy,
     );
 
@@ -27,13 +28,6 @@ class LazyCodeGenerator {
       key,
       environment,
     );
-  }
-
-  static String _generateDependencies(TypeRegistration typeRegistration) {
-    // TODO: Also pass environment and other parameters
-    return typeRegistration.dependencies
-        .map((dep) => "await ServiceLocator.I.resolve()")
-        .join(', ');
   }
 
   static String _generateLazyWithFactoryRegistration(

@@ -3,31 +3,14 @@
 
 // ignore_for_file: implementation_imports, depend_on_referenced_packages, unused_import
 
-import 'package:example/test_files/module_services.dart';
-import 'package:example/test_files/singleton_services.dart';
 import 'package:dio/src/dio.dart';
+import 'package:example/test_files/singleton_services.dart';
 import 'package:example/test_files/lazy_services.dart';
 import 'package:example/test_files/transient_services.dart';
 import 'package:zef_di_core/zef_di_core.dart';
 import 'package:zef_helpers_lazy/zef_helpers_lazy.dart';
 
 Future<void> registerDependencies() async {
-  await ServiceLocator.I.registerSingleton<ModuleNoDependencies>(
-    ModuleNoDependencies(),
-    interfaces: {SingletonService},
-    name: null,
-    key: null,
-    environment: null,
-  );
-
-  await ServiceLocator.I.registerSingletonFactory<ModuleWithFactory>(
-    (Map<String, dynamic> args) async => ModuleWithFactory.create(),
-    interfaces: null,
-    name: null,
-    key: null,
-    environment: null,
-  );
-
   await ServiceLocator.I.registerSingleton<Dio>(
     Dio(),
     interfaces: null,
@@ -66,36 +49,6 @@ Future<void> registerDependencies() async {
         SingletonWithFactoryWithDependencies.create(
             await ServiceLocator.I.resolve()),
     interfaces: {SingletonService},
-    name: null,
-    key: null,
-    environment: null,
-  );
-
-  await ServiceLocator.I.registerTransient<ModuleWithArgs>(
-    (args) async => ModuleWithArgs(
-      someValue: args['someValue'],
-    ),
-    interfaces: null,
-    name: null,
-    key: null,
-    environment: null,
-  );
-
-  await ServiceLocator.I.registerTransient<ModuleWithDependency>(
-    (args) async =>
-        ModuleWithDependency(await ServiceLocator.I.resolve(args: args)),
-    interfaces: null,
-    name: null,
-    key: null,
-    environment: null,
-  );
-
-  await ServiceLocator.I.registerLazy<ModuleWithFactoryWithDependencies>(
-    Lazy<ModuleWithFactoryWithDependencies>(
-        factory: () async => ModuleWithFactoryWithDependencies.create(
-            await ServiceLocator.I.resolve(),
-            await ServiceLocator.I.resolve())),
-    interfaces: null,
     name: null,
     key: null,
     environment: null,
@@ -173,9 +126,7 @@ Future<void> registerDependencies() async {
   );
 
   await ServiceLocator.I.registerTransient<TransientWithArgs>(
-    (args) async => TransientWithArgs(
-      someValue: args['someValue'],
-    ),
+    (args) async => TransientWithArgs(someValue: args['someValue']),
     interfaces: {TransientService},
     name: null,
     key: null,
@@ -183,9 +134,8 @@ Future<void> registerDependencies() async {
   );
 
   await ServiceLocator.I.registerTransient<TransientWithFactoryWithArgs>(
-    (args) async => TransientWithFactoryWithArgs.create(
-      someValue: args['someValue'],
-    ),
+    (args) async =>
+        TransientWithFactoryWithArgs.create(someValue: args['someValue']),
     interfaces: {TransientService},
     name: null,
     key: null,

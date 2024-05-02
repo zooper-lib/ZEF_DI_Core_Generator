@@ -46,7 +46,8 @@ class SingletonWithFactoryWithDependencies implements SingletonService {
   SingletonWithFactoryWithDependencies(this.serviceA);
 
   @RegisterFactoryMethod()
-  static SingletonWithFactoryWithDependencies create(SingletonNoDependencies serviceA) {
+  static SingletonWithFactoryWithDependencies create(
+      SingletonNoDependencies serviceA) {
     return SingletonWithFactoryWithDependencies(serviceA);
   }
 

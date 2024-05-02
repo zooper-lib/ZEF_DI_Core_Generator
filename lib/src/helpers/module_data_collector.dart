@@ -121,10 +121,7 @@ class ModuleDataCollector {
         ConstructorProcessor.getConstructorNameOrNull(constructor);
 
     // Get the dependencies
-    List<String> dependencies = ParameterProcessor.getUnnamedParameters(
-      constructor: constructor,
-    );
-    Map<String, String> args = ParameterProcessor.getNamedParameters(
+    final dependencies = ParameterProcessor.getParameters(
       constructor: constructor,
     );
 
@@ -136,7 +133,6 @@ class ModuleDataCollector {
         factoryMethodName: constructorName,
         isAsyncResolution: false,
         dependencies: dependencies,
-        args: args,
         interfaces: superTypes.toList(),
         name: attributes.name,
         key: attributes.key,
@@ -150,7 +146,6 @@ class ModuleDataCollector {
         isAsyncResolution: false,
         factoryMethodName: constructorName,
         dependencies: dependencies,
-        args: args,
         interfaces: superTypes.toList(),
         name: attributes.name,
         key: attributes.key,
@@ -215,12 +210,7 @@ class ModuleDataCollector {
     final isConstConstructor = ConstructorProcessor.isConst(constructor);
 
     // Get the dependencies
-    final List<String> dependencies =
-        ParameterProcessor.getUnnamedParameters(method: element);
-
-    // Get the named arguments
-    final Map<String, String> args =
-        ParameterProcessor.getNamedParameters(method: element);
+    final dependencies = ParameterProcessor.getParameters(method: element);
 
     if (isSingleton) {
       return SingletonData(
@@ -231,7 +221,6 @@ class ModuleDataCollector {
         isAsyncResolution: false,
         factoryMethodName: constructorName,
         dependencies: dependencies,
-        args: args,
         interfaces: superTypes.toList(),
         name: attributes.name,
         key: attributes.key,
@@ -246,7 +235,6 @@ class ModuleDataCollector {
         isAsyncResolution: false,
         factoryMethodName: constructorName,
         dependencies: dependencies,
-        args: args,
         interfaces: superTypes.toList(),
         name: attributes.name,
         key: attributes.key,

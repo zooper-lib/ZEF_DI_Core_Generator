@@ -1,7 +1,7 @@
 import 'package:example/test_files/module_services.dart';
 import 'package:zef_di_core/zef_di_core.dart';
 
-@DependencyModule()
+//@DependencyModule()
 abstract class ExampleModule {
   @RegisterSingleton()
   ModuleNoDependencies get moduleNoDependencies;
