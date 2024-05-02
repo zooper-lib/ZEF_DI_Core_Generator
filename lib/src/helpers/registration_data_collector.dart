@@ -64,20 +64,6 @@ class RegistrationDataCollector {
       method: factoryMethod,
     );
 
-    // Get the named arguments
-    /*  final args = ParameterProcessor.getNamedParameters(
-      constructor: constructor,
-      method: factoryMethod,
-    ); */
-
-    // Check if the class has named arguments. If so, throw an error
-    /* if (args.isNotEmpty) {
-      throw InvalidGenerationSourceError(
-        'Named arguments are not supported in Singleton classes',
-        element: classElement,
-      );
-    } */
-
     // Get the annotation attributes
     final AnnotationAttributes attributes =
         AnnotationProcessor.getAnnotationAttributes(classElement);

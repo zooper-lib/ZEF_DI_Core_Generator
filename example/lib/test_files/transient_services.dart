@@ -51,7 +51,7 @@ class TransientWithFactoryWithDependencies implements TransientService {
 
   @RegisterFactoryMethod()
   static TransientWithFactoryWithDependencies create(
-      TransientNoDependencies serviceA) {
+      @Injected(name: 'TestName') TransientNoDependencies serviceA) {
     return TransientWithFactoryWithDependencies(serviceA);
   }
 

@@ -42,10 +42,6 @@ class TransientCodeGenerator {
     required String key,
     required String environment,
   }) {
-    // Combine dependencies and named arguments, if needed
-    /* String allArgs =
-        [dependencies, parameters].where((arg) => arg.isNotEmpty).join(', '); */
-
     final bool includeConst =
         (factoryMethodName == null || factoryMethodName.isEmpty) &&
             isConstConstructor;

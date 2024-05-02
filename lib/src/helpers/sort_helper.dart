@@ -3,6 +3,8 @@ import 'package:zef_di_core_generator/src/models/parameter.dart';
 import '../models/registrations.dart';
 
 class SortHelper {
+  /// Sorts the type registrations topologically by their dependencies
+  /// to ensure that dependencies are registered before the types that depend on them.
   static List<TypeRegistration> topologicallySortTypeRegistrations(
     List<TypeRegistration> registrations,
   ) {
@@ -59,8 +61,7 @@ class SortHelper {
       final dependencies = graph[node];
       if (dependencies != null) {
         for (var dep in dependencies) {
-          // TODO: Check if name is the right value
-          visit(dep.parameterType.runtimeType.toString());
+          visit(dep.parameterType);
         }
       }
       visiting.remove(node);

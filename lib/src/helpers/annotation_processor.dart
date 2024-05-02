@@ -62,7 +62,8 @@ class AnnotationProcessor {
       var annotationReader = ConstantReader(annotation.computeConstantValue());
       if (AnnotationProcessor.isRegisterSingleton(annotationReader) ||
           AnnotationProcessor.isRegisterTransient(annotationReader) ||
-          AnnotationProcessor.isRegisterLazy(annotationReader)) {
+          AnnotationProcessor.isRegisterLazy(annotationReader) ||
+          AnnotationProcessor.isInjected(annotationReader)) {
         final String? name = annotationReader.read('_name').isNull
             ? null
             : annotationReader.read('_name').stringValue;

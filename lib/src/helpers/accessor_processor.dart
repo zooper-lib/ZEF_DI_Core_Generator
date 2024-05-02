@@ -13,16 +13,25 @@ class AccessorProcessor {
       // Get the annotation type of the parameter
       final annotationType = _getAnnotationType(param);
 
+      // Get the annotation attributes
+      final attributes = AnnotationProcessor.getAnnotationAttributes(param);
+
       final positionalParameter = param.isPositional
           ? PositionalParameter(
               parameterType: param.type.getDisplayString(withNullability: true),
               annotationType: annotationType,
-              name: param.name,
+              parameterName: param.name,
+              name: attributes.name,
+              key: attributes.key,
+              environment: attributes.environment,
             )
           : NamedParameter(
               parameterType: param.type.getDisplayString(withNullability: true),
               annotationType: annotationType,
-              name: param.name,
+              parameterName: param.name,
+              name: attributes.name,
+              key: attributes.key,
+              environment: attributes.environment,
             );
 
       foundParameters.add(positionalParameter);
@@ -30,37 +39,6 @@ class AccessorProcessor {
 
     return foundParameters;
   }
-
-  /* static List<PositionalParameter> getPositionalParams(
-      PropertyAccessorElement propertyAccessor) {
-    if (propertyAccessor.returnType.element! is ClassElement) {
-      throw Exception(
-          "$PropertyAccessorElement return type is not a $ClassElement");
-    }
-
-    return propertyAccessor.parameters
-        .where((param) => !param.isNamed)
-        .map((param) => PositionalParameter(
-              param.type.getDisplayString(withNullability: true),
-            ))
-        .toList();
-  }
-
-  static List<NamedParameter> getNamedParams(
-      PropertyAccessorElement propertyAccessor) {
-    if (propertyAccessor.returnType.element! is ClassElement) {
-      throw Exception(
-          "$PropertyAccessorElement return type is not a $ClassElement");
-    }
-
-    return propertyAccessor.parameters
-        .where((param) => param.isNamed)
-        .map((param) => NamedParameter(
-              param.type.getDisplayString(withNullability: true),
-              param.name,
-            ))
-        .toList();
-  } */
 
   static ParameterAnnotationType _getAnnotationType(ParameterElement param) {
     for (var annotation in param.metadata) {

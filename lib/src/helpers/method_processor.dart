@@ -35,16 +35,25 @@ class MethodProcessor {
       // Get the annotation type of the parameter
       final annotationType = _getAnnotationType(param);
 
+      // Get the annotation attributes
+      final attributes = AnnotationProcessor.getAnnotationAttributes(param);
+
       final positionalParameter = param.isPositional
           ? PositionalParameter(
               parameterType: param.type.getDisplayString(withNullability: true),
               annotationType: annotationType,
-              name: param.name,
+              parameterName: param.name,
+              name: attributes.name,
+              key: attributes.key,
+              environment: attributes.environment,
             )
           : NamedParameter(
               parameterType: param.type.getDisplayString(withNullability: true),
               annotationType: annotationType,
-              name: param.name,
+              parameterName: param.name,
+              name: attributes.name,
+              key: attributes.key,
+              environment: attributes.environment,
             );
 
       foundParameters.add(positionalParameter);

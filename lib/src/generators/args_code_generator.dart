@@ -3,6 +3,7 @@ import 'package:zef_di_core_generator/src/models/parameter_annotation_type.dart'
 import 'package:zef_di_core_generator/src/models/registrations.dart';
 
 class ArgsCodeGenerator {
+  /// Generates the code for the arguments
   static String generate(TypeRegistration typeRegistration) {
     final positional = typeRegistration is TransientData
         ? _generatePositional(typeRegistration, true)
@@ -12,7 +13,7 @@ class ArgsCodeGenerator {
         : _generateNamed(typeRegistration, false);
 
     if (positional.isNotEmpty && named.isNotEmpty) {
-      return "$positional, $named,";
+      return "$positional $named";
     }
 
     if (positional.isNotEmpty) {
@@ -39,9 +40,10 @@ class ArgsCodeGenerator {
 
     return positionalParameters
         .map((dep) => dep.annotationType == ParameterAnnotationType.injected
-            ? _generateInjectedArg(dep, hasArgs)
+            ? _generateInjectedArg(
+                dep, hasArgs, dep.name, dep.key, dep.environment)
             : _generatePassedArg(dep))
-        .join(', ');
+        .join();
   }
 
   static String _generateNamed(
@@ -58,20 +60,32 @@ class ArgsCodeGenerator {
     return typeRegistration.dependencies
         .whereType<NamedParameter>()
         .map((dep) => dep.annotationType == ParameterAnnotationType.injected
-            ? _generateInjectedArg(dep, hasArgs)
+            ? _generateInjectedArg(
+                dep, hasArgs, dep.name, dep.key, dep.environment)
             : _generatePassedArg(dep))
-        .join(', ');
+        .join();
   }
 
-  static String _generateInjectedArg(Parameter parameter, bool hasArgs) {
+  static String _generateInjectedArg(
+    Parameter parameter,
+    bool hasArgs,
+    String? name,
+    dynamic key,
+    String? environment,
+  ) {
+    final nameString = name != null ? 'name: \'$name\',' : '';
+    final keyString = key != null ? 'key: $key,' : '';
+    final environmentString =
+        environment != null ? 'environment: \'$environment\',' : '';
+
     if (parameter is PositionalParameter) {
       return (hasArgs)
-          ? 'await ServiceLocator.I.resolve(args: args)'
-          : 'await ServiceLocator.I.resolve()';
+          ? 'await ServiceLocator.I.resolve(args: args, $nameString $keyString $environmentString),'
+          : 'await ServiceLocator.I.resolve($nameString $keyString $environmentString),';
     } else if (parameter is NamedParameter) {
       return (hasArgs)
-          ? '${parameter.name}: await ServiceLocator.I.resolve(args: args)'
-          : '${parameter.name}: await ServiceLocator.I.resolve()';
+          ? '${parameter.parameterName}: await ServiceLocator.I.resolve(args: args, $nameString $keyString $environmentString),'
+          : '${parameter.parameterName}: await ServiceLocator.I.resolve(name: $nameString $keyString $environmentString),';
     } else {
       throw Exception('Unknown parameter type');
     }
@@ -79,25 +93,11 @@ class ArgsCodeGenerator {
 
   static String _generatePassedArg(Parameter parameter) {
     if (parameter is PositionalParameter) {
-      return 'args[\'${parameter.name}\']';
+      return 'args[\'${parameter.parameterName}\']';
     } else if (parameter is NamedParameter) {
-      return '${parameter.name}: args[\'${parameter.name}\']';
+      return '${parameter.parameterName}: args[\'${parameter.parameterName}\']';
     } else {
       throw Exception('Unknown parameter type');
     }
   }
-
-  /* static String generate(TypeRegistration typeRegistration) {
-    if (typeRegistration is SingletonData) {
-      throw Exception('SingletonData does not support named arguments');
-    } else if (typeRegistration is TransientData) {
-      return typeRegistration.args
-          .map((e) => "${e.name}: args['${e.name}'],")
-          .join();
-    } else if (typeRegistration is LazyData) {
-      throw Exception('LazyData does not support named arguments');
-    } else {
-      throw Exception('Unknown type registration');
-    }
-  } */
 }
