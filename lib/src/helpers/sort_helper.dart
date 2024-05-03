@@ -1,9 +1,14 @@
+import 'package:zef_di_core_generator/src/models/parameter.dart';
+
 import '../models/registrations.dart';
 
 class SortHelper {
+  /// Sorts the type registrations topologically by their dependencies
+  /// to ensure that dependencies are registered before the types that depend on them.
   static List<TypeRegistration> topologicallySortTypeRegistrations(
-      List<TypeRegistration> registrations) {
-    final Map<String, Set<String>> graph = {};
+    List<TypeRegistration> registrations,
+  ) {
+    final Map<String, Set<Parameter>> graph = {};
     final Map<String, TypeRegistration> dataLookup = {};
 
     // Initialize graph and lookup table
@@ -15,16 +20,17 @@ class SortHelper {
     }
 
     // Perform topological sort
-    final List<String> sortedClassNames = performTopologicalSort(graph);
+    final List<String> sortedClassNames = _performTopologicalSort(graph);
 
     // Map sorted class names back to their corresponding RegistrationData objects
     final List<TypeRegistration> sortedRegistrations = [];
     for (var className in sortedClassNames) {
       final registrationData = dataLookup[className];
+
       if (registrationData != null) {
         sortedRegistrations.add(registrationData);
       } else {
-        print("Warning: No registration data found for class '$className'");
+        print("Warning: No registrered type found for '$className'");
       }
     }
 
@@ -39,7 +45,8 @@ class SortHelper {
     return sortedRegistrations;
   }
 
-  static List<String> performTopologicalSort(Map<String, Set<String>> graph) {
+  static List<String> _performTopologicalSort(
+      Map<String, Set<Parameter>> graph) {
     final List<String> sorted = [];
     final Set<String> visited = {};
     final Set<String> visiting = {};
@@ -54,7 +61,7 @@ class SortHelper {
       final dependencies = graph[node];
       if (dependencies != null) {
         for (var dep in dependencies) {
-          visit(dep);
+          visit(dep.parameterType);
         }
       }
       visiting.remove(node);

@@ -1,3 +1,4 @@
+import 'package:zef_di_core_generator/src/generators/args_code_generator.dart';
 import 'package:zef_di_core_generator/src/generators/environment_code_generator.dart';
 import 'package:zef_di_core_generator/src/generators/interfaces_code_generator.dart';
 import 'package:zef_di_core_generator/src/generators/key_code_generator.dart';
@@ -5,24 +6,22 @@ import 'package:zef_di_core_generator/src/generators/name_code_generator.dart';
 import 'package:zef_di_core_generator/src/models/registrations.dart';
 
 class SingletonCodeGenerator {
-  static String generate(SingletonData instance) {
+  static String generateRegisterFunction(SingletonData instance) {
     // Check if a factory method is provided for singleton creation
     if (instance.factoryMethodName != null &&
         instance.factoryMethodName!.isNotEmpty) {
-      return generateWithFactory(instance);
+      return _generateWithFactory(instance);
     } else {
-      return generateWithInstance(instance);
+      return _generateWithInstance(instance);
     }
   }
 
-  static String generateWithInstance(SingletonData instance) {
-    // Instantiate the class directly, potentially with resolved dependencies
-    String dependenciesResolution = _generateDependencies(
-      instance,
-    );
+  static String _generateWithInstance(SingletonData instance) {
+    // Generate the parameters string
+    String parameters = ArgsCodeGenerator.generate(instance, false);
 
     final instanceCreation =
-        '${instance.isConstConstructor ? 'const ' : ''} ${instance.className}($dependenciesResolution)';
+        '${instance.isConstConstructor ? 'const ' : ''} ${instance.className}($parameters)';
 
     // Format additional registration parameters
     final interfaces = InterfacesCodeGenerator.generate(instance);
@@ -40,7 +39,7 @@ class SingletonCodeGenerator {
         environment: environment);
   }
 
-  static String generateWithFactory(SingletonData instance) {
+  static String _generateWithFactory(SingletonData instance) {
     // Ensure a factory method name is provided
     if (instance.factoryMethodName == null ||
         instance.factoryMethodName!.isEmpty) {
@@ -48,14 +47,12 @@ class SingletonCodeGenerator {
           'Factory method name must be provided for singleton function registration.');
     }
 
-    // Resolve dependencies for the factory method
-    final dependencies = _generateDependencies(
-      instance,
-    );
+    // Generate the parameters string
+    final parameters = ArgsCodeGenerator.generate(instance, true);
 
     // Construct the function call to the factory method with resolved dependencies and named arguments
     String functionCall =
-        '${instance.className}.${instance.factoryMethodName!}($dependencies)';
+        '${instance.className}.${instance.factoryMethodName!}($parameters)';
 
     // Format additional registration parameters
     final interfaces = InterfacesCodeGenerator.generate(instance);
@@ -72,13 +69,6 @@ class SingletonCodeGenerator {
       key: key,
       environment: environment,
     );
-  }
-
-  static String _generateDependencies(TypeRegistration typeRegistration) {
-    // TODO: Also pass environment and other parameters
-    return typeRegistration.dependencies
-        .map((dep) => "await ServiceLocator.I.resolve()")
-        .join(', ');
   }
 
   static String _generateInstanceRegistration({

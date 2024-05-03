@@ -1,18 +1,15 @@
-import 'dart:async';
 import 'package:build/build.dart';
-import 'package:zef_di_core_generator/src/generators/register_code_generator_factory.dart';
+import 'package:zef_di_core_generator/src/helpers/code_formatter.dart';
 import 'package:zef_di_core_generator/src/helpers/import_path_resolver.dart';
+import 'package:zef_di_core_generator/src/helpers/registration_data_processor.dart';
+import 'package:zef_di_core_generator/src/models/import_path.dart';
+import 'package:zef_di_core_generator/src/models/import_type.dart';
+import 'package:zef_di_core_generator/src/models/registrations.dart';
 
-import '../helpers/code_formatter.dart';
-import '../helpers/registration_data_processor.dart';
-import '../models/import_path.dart';
-import '../models/import_type.dart';
-import '../models/registrations.dart';
-
-class DependencyRegistrationBuilder implements Builder {
+class ResolveFunctionBuilder extends Builder {
   @override
   Map<String, List<String>> get buildExtensions => {
-        r'$lib$': ['zef.di.register.g.dart']
+        r'$lib$': ['zef.di.resolve.g.dart']
       };
 
   final Set<ImportPath> _importedPackages = {
@@ -34,7 +31,7 @@ class DependencyRegistrationBuilder implements Builder {
 
     _writeHeader(codeBuffer);
     _writeImports(codeBuffer, allRegistrations);
-    _writeRegistrationFunctions(codeBuffer, allRegistrations);
+    _writeResolveFunctions(codeBuffer, allRegistrations);
 
     final formattedContent = CodeFormatter.formatCode(codeBuffer.toString());
     await _writeGeneratedFile(buildStep, formattedContent);
@@ -74,17 +71,18 @@ class DependencyRegistrationBuilder implements Builder {
     buffer.writeln();
   }
 
-  void _writeRegistrationFunctions(
+  void _writeResolveFunctions(
     StringBuffer codeBuffer,
     List<RegistrationData> registrations,
   ) {
-    // Write the function signature
-    codeBuffer.writeln("Future<void> registerDependencies() async {");
+    // Write the extension signature
+    codeBuffer
+        .writeln("extension ServiceLocatorExtensions on ServiceLocator {");
 
-    for (var registration in registrations) {
-      codeBuffer.writeln(RegisterCodeGeneratorFactory.generate(registration));
+    /* for (var registration in registrations) {
+      codeBuffer.writeln(CodeGeneratorFactory.generate(registration));
       codeBuffer.writeln();
-    }
+    } */
 
     codeBuffer.writeln("}");
   }
@@ -92,7 +90,7 @@ class DependencyRegistrationBuilder implements Builder {
   Future<void> _writeGeneratedFile(BuildStep buildStep, String content) async {
     final formattedContent = CodeFormatter.formatCode(content);
     await buildStep.writeAsString(
-      AssetId(buildStep.inputId.package, 'lib/zef.di.register.g.dart'),
+      AssetId(buildStep.inputId.package, 'lib/zef.di.resolve.g.dart'),
       formattedContent,
     );
   }

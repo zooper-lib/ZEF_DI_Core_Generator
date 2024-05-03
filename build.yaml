@@ -1,7 +1,7 @@
 targets:
   $default:
     builders:
-      zef_di_core_generator|dependencyBuilder:
+      zef_di_core_generator|dependencyRegistrationBuilder:
         enabled: true
 
 builders:
@@ -12,6 +12,14 @@ builders:
     auto_apply: dependents
     build_to: cache
     applies_builders: ["zef_di_core_generator:code_generator"]
+
+  resolve_function_generator:
+    import: "package:zef_di_core_generator/zef_di_core_generator.dart"
+    builder_factories: ["resolveFunctionBuilder"]
+    build_extensions: { "$lib$": ["aggregate.dart"] }
+    auto_apply: dependents
+    build_to: source
+    required_inputs: ["**/*.info.json"]
 
   code_generator:
     import: "package:zef_di_core_generator/zef_di_core_generator.dart"

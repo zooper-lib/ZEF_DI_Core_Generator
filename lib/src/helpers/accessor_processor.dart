@@ -1,31 +1,51 @@
 import 'package:analyzer/dart/element/element.dart';
+import 'package:source_gen/source_gen.dart';
+import 'package:zef_di_core_generator/src/helpers/annotation_processor.dart';
+import 'package:zef_di_core_generator/src/models/parameter.dart';
+import 'package:zef_di_core_generator/src/models/parameter_annotation_type.dart';
 
 class AccessorProcessor {
-  static List<String> getUnnamedParams(
-      PropertyAccessorElement propertyAccessor) {
-    if (propertyAccessor.returnType.element! is ClassElement) {
-      throw Exception(
-          "$PropertyAccessorElement return type is not a $ClassElement");
+  static List<Parameter> getParams(PropertyAccessorElement propertyAccessor) {
+    final parameters = propertyAccessor.parameters;
+    final List<Parameter> foundParameters = [];
+
+    for (var param in parameters) {
+      // Get the annotation type of the parameter
+      final annotationType = _getAnnotationType(param);
+
+      // Get the annotation attributes
+      final attributes = AnnotationProcessor.getAnnotationAttributes(param);
+
+      final positionalParameter = param.isPositional
+          ? PositionalParameter(
+              parameterType: param.type.getDisplayString(withNullability: true),
+              annotationType: annotationType,
+              parameterName: param.name,
+              name: attributes.name,
+              key: attributes.key,
+              environment: attributes.environment,
+            )
+          : NamedParameter(
+              parameterType: param.type.getDisplayString(withNullability: true),
+              annotationType: annotationType,
+              parameterName: param.name,
+              name: attributes.name,
+              key: attributes.key,
+              environment: attributes.environment,
+            );
+
+      foundParameters.add(positionalParameter);
     }
 
-    final unnamedParams = propertyAccessor.parameters
-        .where((param) => !param.isNamed)
-        .map((param) => param.type.getDisplayString(withNullability: false))
-        .toList();
-
-    return unnamedParams;
+    return foundParameters;
   }
 
-  static Map<String, String> getNamedParams(
-      PropertyAccessorElement propertyAccessor) {
-    if (propertyAccessor.returnType.element! is ClassElement) {
-      throw Exception(
-          "$PropertyAccessorElement return type is not a $ClassElement");
+  static ParameterAnnotationType _getAnnotationType(ParameterElement param) {
+    for (var annotation in param.metadata) {
+      var reader = ConstantReader(annotation.computeConstantValue());
+      return AnnotationProcessor.getParameterAnnotationType(reader);
     }
 
-    return Map.fromEntries(propertyAccessor.parameters
-        .where((param) => param.isNamed)
-        .map((param) => MapEntry(
-            param.name, param.type.getDisplayString(withNullability: false))));
+    return ParameterAnnotationType.injected;
   }
 }

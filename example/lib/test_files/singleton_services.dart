@@ -46,7 +46,8 @@ class SingletonWithFactoryWithDependencies implements SingletonService {
   SingletonWithFactoryWithDependencies(this.serviceA);
 
   @RegisterFactoryMethod()
-  static SingletonWithFactoryWithDependencies create(SingletonNoDependencies serviceA) {
+  static SingletonWithFactoryWithDependencies create(
+      SingletonNoDependencies serviceA) {
     return SingletonWithFactoryWithDependencies(serviceA);
   }
 
@@ -55,37 +56,3 @@ class SingletonWithFactoryWithDependencies implements SingletonService {
     print('$SingletonWithFactoryWithDependencies.doSomething');
   }
 }
-
-// This will throw an Exception
-/* 
-@RegisterSingleton()
-class SingletonWithNamedArgs implements AbstractService {
-  final double someValue;
-
-  SingletonWithNamedArgs({required this.someValue});
-
-  @override
-  void doSomething() {
-    print('$SingletonWithNamedArgs.doSomething with someValue: $someValue');
-  }
-} */
-
-// This will throw an Exception
-/*
-@RegisterSingleton()
-class SingletonWithNamedArgsWithFactory implements AbstractService {
-  final double someValue;
-
-  SingletonWithNamedArgsWithFactory({required this.someValue});
-
-  @RegisterFactoryMethod()
-  static SingletonWithNamedArgsWithFactory create({required double someValue}) {
-    return SingletonWithNamedArgsWithFactory(someValue: someValue);
-  }
-
-  @override
-  void doSomething() {
-    print(
-        '$SingletonWithNamedArgsWithFactory.doSomething with someValue: $someValue');
-  }
-} */

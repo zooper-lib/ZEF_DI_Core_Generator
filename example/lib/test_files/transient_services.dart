@@ -51,7 +51,7 @@ class TransientWithFactoryWithDependencies implements TransientService {
 
   @RegisterFactoryMethod()
   static TransientWithFactoryWithDependencies create(
-      TransientNoDependencies serviceA) {
+      @Injected(name: 'TestName') TransientNoDependencies serviceA) {
     return TransientWithFactoryWithDependencies(serviceA);
   }
 
@@ -65,7 +65,7 @@ class TransientWithFactoryWithDependencies implements TransientService {
 class TransientWithArgs implements TransientService {
   final double someValue;
 
-  TransientWithArgs({required this.someValue});
+  TransientWithArgs({@Passed() required this.someValue});
 
   @override
   void doSomething() {
@@ -80,7 +80,8 @@ class TransientWithFactoryWithArgs implements TransientService {
   TransientWithFactoryWithArgs({required this.someValue});
 
   @RegisterFactoryMethod()
-  static TransientWithFactoryWithArgs create({required double someValue}) {
+  static TransientWithFactoryWithArgs create(
+      {@Passed() required double someValue}) {
     return TransientWithFactoryWithArgs(someValue: someValue);
   }
 
@@ -99,7 +100,7 @@ class TransientWithDependencyWithArgs implements TransientService {
   TransientWithDependencyWithArgs(
     this._dependency,
     this._dependency2, {
-    required this.someValue,
+    @Passed() required this.someValue,
   });
 
   @override
@@ -121,7 +122,7 @@ class TransientWithFactoryWithDependencyWithArgs implements TransientService {
   @RegisterFactoryMethod()
   static TransientWithFactoryWithDependencyWithArgs create(
     TransientNoDependencies dependency, {
-    required double? someValue,
+    @Passed() required double? someValue,
   }) {
     return TransientWithFactoryWithDependencyWithArgs(
       dependency,
@@ -154,7 +155,7 @@ class TransientWithMultipleConstructors implements TransientService {
 
   TransientWithMultipleConstructors(this.someValue);
 
-  TransientWithMultipleConstructors.named(this.someValue);
+  TransientWithMultipleConstructors.named(@Passed() this.someValue);
 
   @override
   void doSomething() {
@@ -168,12 +169,13 @@ class TransientWithMultipleFactories implements TransientService {
 
   TransientWithMultipleFactories(this.someValue);
 
-  static TransientWithMultipleFactories factory1(double someValue) {
+  static TransientWithMultipleFactories factory1(@Passed() double someValue) {
     return TransientWithMultipleFactories(someValue);
   }
 
   static Future<TransientWithMultipleFactories> factory2(
-      double someValue) async {
+    @Passed() double someValue,
+  ) async {
     return TransientWithMultipleFactories(someValue);
   }
 
