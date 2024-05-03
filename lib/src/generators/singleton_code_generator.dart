@@ -17,10 +17,8 @@ class SingletonCodeGenerator {
   }
 
   static String _generateWithInstance(SingletonData instance) {
-    // Instantiate the class directly, potentially with resolved dependencies
-    String parameters = ArgsCodeGenerator.generate(
-      instance,
-    );
+    // Generate the parameters string
+    String parameters = ArgsCodeGenerator.generate(instance, false);
 
     final instanceCreation =
         '${instance.isConstConstructor ? 'const ' : ''} ${instance.className}($parameters)';
@@ -49,14 +47,12 @@ class SingletonCodeGenerator {
           'Factory method name must be provided for singleton function registration.');
     }
 
-    // Resolve dependencies for the factory method
-    final dependencies = ArgsCodeGenerator.generate(
-      instance,
-    );
+    // Generate the parameters string
+    final parameters = ArgsCodeGenerator.generate(instance, true);
 
     // Construct the function call to the factory method with resolved dependencies and named arguments
     String functionCall =
-        '${instance.className}.${instance.factoryMethodName!}($dependencies)';
+        '${instance.className}.${instance.factoryMethodName!}($parameters)';
 
     // Format additional registration parameters
     final interfaces = InterfacesCodeGenerator.generate(instance);

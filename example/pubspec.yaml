@@ -5,9 +5,7 @@ environment:
   sdk: ^3.0.5
 
 dependencies:
-  #zef_di_core: ^4.0.0
-  zef_di_core:
-    path: ../../zef_di_core
+  zef_di_core: ^5.0.0
  
   zef_helpers_lazy: ^2.0.0
 

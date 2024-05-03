@@ -8,9 +8,7 @@ import 'package:zef_di_core_generator/src/models/registrations.dart';
 class LazyCodeGenerator {
   static String generate(LazyData lazy) {
     // Resolve dependencies for the constructor parameters
-    final dependencies = ArgsCodeGenerator.generate(
-      lazy,
-    );
+    final dependencies = ArgsCodeGenerator.generate(lazy, false);
 
     // Format additional registration parameters
     final interfaces = InterfacesCodeGenerator.generate(lazy);

@@ -49,7 +49,9 @@ Future<void> registerDependencies() async {
       .registerSingletonFactory<SingletonWithFactoryWithDependencies>(
     (Map<String, dynamic> args) async =>
         SingletonWithFactoryWithDependencies.create(
-      await ServiceLocator.I.resolve(),
+      await ServiceLocator.I.resolve(
+        args: args,
+      ),
     ),
     interfaces: {SingletonService},
     name: null,

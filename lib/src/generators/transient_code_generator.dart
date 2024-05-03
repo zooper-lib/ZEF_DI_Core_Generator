@@ -8,7 +8,7 @@ import 'package:zef_di_core_generator/src/models/registrations.dart';
 class TransientCodeGenerator {
   static String generate(TransientData transient) {
     // Prepare the string for named arguments, if any
-    String parameters = ArgsCodeGenerator.generate(transient);
+    String parameters = ArgsCodeGenerator.generate(transient, true);
 
     // Format additional registration parameters
     final interfaces = InterfacesCodeGenerator.generate(transient);

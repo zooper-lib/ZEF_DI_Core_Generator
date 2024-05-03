@@ -1,3 +1,7 @@
+## 4.0.0
+
+- Completly overhauled to injection system to not depend on positional or named args
+
 ## 3.0.0
 
 - Adapted to project renaming

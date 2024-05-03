@@ -4,13 +4,9 @@ import 'package:zef_di_core_generator/src/models/registrations.dart';
 
 class ArgsCodeGenerator {
   /// Generates the code for the arguments
-  static String generate(TypeRegistration typeRegistration) {
-    final positional = typeRegistration is TransientData
-        ? _generatePositional(typeRegistration, true)
-        : _generatePositional(typeRegistration, false);
-    final named = typeRegistration is TransientData
-        ? _generateNamed(typeRegistration, true)
-        : _generateNamed(typeRegistration, false);
+  static String generate(TypeRegistration typeRegistration, bool hasArgs) {
+    final positional = _generatePositional(typeRegistration, hasArgs);
+    final named = _generateNamed(typeRegistration, hasArgs);
 
     if (positional.isNotEmpty && named.isNotEmpty) {
       return "$positional $named";
@@ -73,19 +69,16 @@ class ArgsCodeGenerator {
     dynamic key,
     String? environment,
   ) {
+    final argsString = hasArgs ? 'args: args,' : '';
     final nameString = name != null ? 'name: \'$name\',' : '';
     final keyString = key != null ? 'key: $key,' : '';
     final environmentString =
         environment != null ? 'environment: \'$environment\',' : '';
 
     if (parameter is PositionalParameter) {
-      return (hasArgs)
-          ? 'await ServiceLocator.I.resolve(args: args, $nameString $keyString $environmentString),'
-          : 'await ServiceLocator.I.resolve($nameString $keyString $environmentString),';
+      return 'await ServiceLocator.I.resolve($argsString $nameString $keyString $environmentString),';
     } else if (parameter is NamedParameter) {
-      return (hasArgs)
-          ? '${parameter.parameterName}: await ServiceLocator.I.resolve(args: args, $nameString $keyString $environmentString),'
-          : '${parameter.parameterName}: await ServiceLocator.I.resolve(name: $nameString $keyString $environmentString),';
+      return '${parameter.parameterName}: await ServiceLocator.I.resolve($argsString $nameString $keyString $environmentString),';
     } else {
       throw Exception('Unknown parameter type');
     }

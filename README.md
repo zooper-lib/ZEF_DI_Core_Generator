@@ -10,18 +10,25 @@ A code generator for the library [zef_di_core](https://pub.dev/packages/zef_di_c
 
 ## Getting Started
 
-To begin usinbg this package in your project, follow these steps:
+To begin using this package in your project, follow these steps:
 
 ### Installation
 
-1. Add `zef_di_core_generator` to your `pubspec.yaml` under `dev_dependencies`:
+1. Add `zef_di_core` to you `pubspec.yaml` under `dependencies`
+
+```yaml
+dependencies:
+  zef_di_core: latest_version
+```
+
+2. Add `zef_di_core_generator` to your `pubspec.yaml` under `dev_dependencies`:
 
 ```yaml
 dev_dependencies:
   zef_di_core_generator: latest_version
 ```
 
-2. Run `pub get` or `flutter pub get` to install the package.
+3. Run `pub get` or `flutter pub get` to install the package.
 
 ## Usage
 
@@ -29,7 +36,7 @@ dev_dependencies:
 2. Run the build runner to generate the necessary code:
 
    ```shell
-   flutter pub run build_runner build
+   dart run build_runner build
    ```
 
 This will generate the service registration code in your project, adhering to the configurations defined by your annotations.
@@ -119,6 +126,8 @@ If you want to manually set how the class will be constructed, you can annotate 
 ### Passing parameters
 
 The code generator will also generate the needed code to pass parameters while resolving a dependency.
+The strategy is, that non-annotated parameters are tried to be resolved with the `ServiceLocator`. If you want tell the generator
+that a parameter is passed via the `args`, you can annotate it with `@Passed()`.
 
 ```dart
 import 'package:zef_di_core/zef_di_core.dart';
@@ -130,11 +139,11 @@ class TransientService {
   final double _anyValue;
 
   TransientService(
-    // Positional parameters will automatically be resolved via the ServiceLocator
+    // This parameter will be tried to automatically resolved
     this._anyOtherService, {
 
-    // Named arguments are considered to be passed as parameters
-    required double anyValue,
+    // This parameter will be passed from `args`
+    @Passed() required double anyValue,
   }) : _anyValue : anyValue;
 }
 ```
