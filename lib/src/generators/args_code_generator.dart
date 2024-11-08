@@ -86,7 +86,7 @@ class ArgsCodeGenerator {
 
   static String _generatePassedArg(Parameter parameter) {
     if (parameter is PositionalParameter) {
-      return 'args[\'${parameter.parameterName}\']';
+      return 'args[\'${parameter.parameterName}\'],';
     } else if (parameter is NamedParameter) {
       return '${parameter.parameterName}: args[\'${parameter.parameterName}\'],';
     } else {

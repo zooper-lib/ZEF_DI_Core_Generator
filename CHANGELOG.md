@@ -1,3 +1,7 @@
+## 4.0.2
+
+- Fixed an other comma bug
+
 ## 4.0.1
 
 - Fixed a bug where passed args are not seperated via comma
