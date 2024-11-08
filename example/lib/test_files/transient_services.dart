@@ -137,6 +137,28 @@ class TransientWithFactoryWithDependencyWithArgs implements TransientService {
 }
 
 @RegisterTransient()
+class TransientWithMultipleDependenciesWithMultipleArgs
+    implements TransientService {
+  final TransientNoDependencies dependencyOne;
+  final TransientNoDependencies dependencyTwo;
+
+  final double valueOne;
+  final double valueTwo;
+
+  TransientWithMultipleDependenciesWithMultipleArgs({
+    @Injected() required this.dependencyOne,
+    @Injected() required this.dependencyTwo,
+    @Passed() required this.valueOne,
+    @Passed() required this.valueTwo,
+  });
+
+  @override
+  void doSomething() {
+    print('$TransientWithArgs.doSomething');
+  }
+}
+
+@RegisterTransient()
 class TransientWithAsyncFactory implements TransientService {
   @RegisterFactoryMethod()
   static Future<TransientWithAsyncFactory> create() async {

@@ -1,3 +1,8 @@
+## 4.0.1
+
+- Fixed a bug where passed args are not seperated via comma
+- Updated dependencies
+
 ## 4.0.0
 
 - Completly overhauled to injection system to not depend on positional or named args
