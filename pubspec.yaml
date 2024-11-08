@@ -1,6 +1,6 @@
 name: zef_di_core_generator
 description: A code generator for the library zef_di_core.
-version: 4.0.0
+version: 4.0.1
 homepage: https://www.zooper.dev
 repository: https://github.com/zooper-lib/ZEF_DI_Core_Generator
 topics:
@@ -30,7 +30,7 @@ dependencies:
   zef_helpers_lazy: ^2.0.0
   
 dev_dependencies:
-  lints: ^3.0.0
+  lints: ^5.0.0
   test: ^1.24.0
 
   build_runner:

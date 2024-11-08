@@ -88,7 +88,7 @@ class ArgsCodeGenerator {
     if (parameter is PositionalParameter) {
       return 'args[\'${parameter.parameterName}\']';
     } else if (parameter is NamedParameter) {
-      return '${parameter.parameterName}: args[\'${parameter.parameterName}\']';
+      return '${parameter.parameterName}: args[\'${parameter.parameterName}\'],';
     } else {
       throw Exception('Unknown parameter type');
     }

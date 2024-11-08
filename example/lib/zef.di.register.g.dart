@@ -139,7 +139,9 @@ Future<void> registerDependencies() async {
   );
 
   await ServiceLocator.I.registerTransient<TransientWithArgs>(
-    (args) async => TransientWithArgs(someValue: args['someValue']),
+    (args) async => TransientWithArgs(
+      someValue: args['someValue'],
+    ),
     interfaces: {TransientService},
     name: null,
     key: null,
@@ -147,8 +149,9 @@ Future<void> registerDependencies() async {
   );
 
   await ServiceLocator.I.registerTransient<TransientWithFactoryWithArgs>(
-    (args) async =>
-        TransientWithFactoryWithArgs.create(someValue: args['someValue']),
+    (args) async => TransientWithFactoryWithArgs.create(
+      someValue: args['someValue'],
+    ),
     interfaces: {TransientService},
     name: null,
     key: null,
@@ -157,13 +160,14 @@ Future<void> registerDependencies() async {
 
   await ServiceLocator.I.registerTransient<TransientWithDependencyWithArgs>(
     (args) async => TransientWithDependencyWithArgs(
-        await ServiceLocator.I.resolve(
-          args: args,
-        ),
-        await ServiceLocator.I.resolve(
-          args: args,
-        ),
-        someValue: args['someValue']),
+      await ServiceLocator.I.resolve(
+        args: args,
+      ),
+      await ServiceLocator.I.resolve(
+        args: args,
+      ),
+      someValue: args['someValue'],
+    ),
     interfaces: {TransientService},
     name: null,
     key: null,
@@ -173,10 +177,29 @@ Future<void> registerDependencies() async {
   await ServiceLocator.I
       .registerTransient<TransientWithFactoryWithDependencyWithArgs>(
     (args) async => TransientWithFactoryWithDependencyWithArgs.create(
-        await ServiceLocator.I.resolve(
-          args: args,
-        ),
-        someValue: args['someValue']),
+      await ServiceLocator.I.resolve(
+        args: args,
+      ),
+      someValue: args['someValue'],
+    ),
+    interfaces: {TransientService},
+    name: null,
+    key: null,
+    environment: null,
+  );
+
+  await ServiceLocator.I
+      .registerTransient<TransientWithMultipleDependenciesWithMultipleArgs>(
+    (args) async => TransientWithMultipleDependenciesWithMultipleArgs(
+      dependencyOne: await ServiceLocator.I.resolve(
+        args: args,
+      ),
+      dependencyTwo: await ServiceLocator.I.resolve(
+        args: args,
+      ),
+      valueOne: args['valueOne'],
+      valueTwo: args['valueTwo'],
+    ),
     interfaces: {TransientService},
     name: null,
     key: null,
