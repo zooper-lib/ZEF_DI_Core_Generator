@@ -8,8 +8,7 @@ import 'package:zef_di_core_generator/src/models/registrations.dart';
 import '../models/import_type.dart';
 
 class ImportPathResolver {
-  static ImportPath determineImportPathForClass(
-      ClassElement element, BuildStep buildStep) {
+  static ImportPath determineImportPathForClass(ClassElement element, BuildStep buildStep) {
     final Uri elementUri = element.librarySource.uri;
 
     if (elementUri.scheme == 'package') {
@@ -22,15 +21,13 @@ class ImportPathResolver {
       );
     } else {
       final inputPath = buildStep.inputId.uri.path;
-      final relativePath =
-          p.relative(elementUri.path, from: p.dirname(inputPath));
+      final relativePath = p.relative(elementUri.path, from: p.dirname(inputPath));
 
       return ImportPath(relativePath, ImportType.relative);
     }
   }
 
-  static Set<ImportPath> getImportPathsWithInterfaces(
-      RegistrationData registration) {
+  static Set<ImportPath> getImportPathsWithInterfaces(RegistrationData registration) {
     // Initialize with base import paths
     final importPaths = getImportPaths(registration);
 
@@ -49,6 +46,11 @@ class ImportPathResolver {
 
     if (registration is TypeRegistration) {
       paths.add(registration.importPath);
+
+      // For module methods, we also need to import the return type
+      if (registration.returnTypeImportPath != null) {
+        paths.add(registration.returnTypeImportPath!);
+      }
     }
 
     return paths;

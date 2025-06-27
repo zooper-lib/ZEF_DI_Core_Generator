@@ -9,8 +9,7 @@ class MethodProcessor {
   static MethodElement? getAnnotatedFactoryMethod(ClassElement element) {
     for (var method in element.methods) {
       // Check if the method is annotated with @RegisterFactoryMethod
-      var annotation = TypeChecker.fromRuntime(RegisterFactoryMethod)
-          .firstAnnotationOfExact(method);
+      var annotation = TypeChecker.fromRuntime(RegisterFactoryMethod).firstAnnotationOfExact(method);
       if (annotation != null) {
         return method;
       }
@@ -40,7 +39,7 @@ class MethodProcessor {
 
       final positionalParameter = param.isPositional
           ? PositionalParameter(
-              parameterType: param.type.getDisplayString(withNullability: true),
+              parameterType: param.type.getDisplayString(),
               annotationType: annotationType,
               parameterName: param.name,
               name: attributes.name,
@@ -48,7 +47,7 @@ class MethodProcessor {
               environment: attributes.environment,
             )
           : NamedParameter(
-              parameterType: param.type.getDisplayString(withNullability: true),
+              parameterType: param.type.getDisplayString(),
               annotationType: annotationType,
               parameterName: param.name,
               name: attributes.name,

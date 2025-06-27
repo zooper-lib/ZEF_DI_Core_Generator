@@ -239,6 +239,18 @@ abstract class ExternalClassesModule {
 
 The code will be generated into the same class as if you would have annotated the classes directly. See `zef.di.g.dart`
 
+### Automatic Import Path Resolution
+
+The generator automatically determines and imports the correct paths for all types used in your modules, including external dependencies from third-party packages. You don't need to worry about manually managing imports - the generator analyzes your code and handles all import statements automatically.
+
+For example, if you register popular packages like `Dio`, `Http`, or any other external dependency in your module, the generator will:
+
+1. Automatically detect the correct import path for the external type
+2. Add the necessary import statements to the generated code
+3. Generate the proper registration code that calls your module's factory methods
+
+This means you can work with any external package without hardcoded imports or manual import management.
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit issues, pull requests, or suggestions to improve the tool.

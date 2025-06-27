@@ -8,11 +8,7 @@ class ImportPath {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is ImportPath &&
-          runtimeType == other.runtimeType &&
-          path == other.path &&
-          type == other.type;
+      identical(this, other) || other is ImportPath && runtimeType == other.runtimeType && path == other.path && type == other.type;
 
   @override
   int get hashCode => path.hashCode ^ type.hashCode;
@@ -26,8 +22,6 @@ class ImportPath {
         return "import 'package:$path';";
       case ImportType.relative:
         return "import '$path';";
-      default:
-        return '';
     }
   }
 

@@ -3,22 +3,16 @@
 
 // ignore_for_file: implementation_imports, depend_on_referenced_packages, unused_import
 
-import 'package:dio/src/dio.dart';
 import 'package:example/test_files/singleton_services.dart';
+import 'package:example/external_module.dart';
+import 'package:dio/src/dio_mixin.dart';
+import 'package:dio/src/dio.dart';
 import 'package:example/test_files/lazy_services.dart';
 import 'package:example/test_files/transient_services.dart';
 import 'package:zef_di_core/zef_di_core.dart';
 import 'package:zef_helpers_lazy/zef_helpers_lazy.dart';
 
 Future<void> registerDependencies() async {
-  await ServiceLocator.I.registerSingleton<Dio>(
-    Dio(),
-    interfaces: null,
-    name: null,
-    key: null,
-    environment: null,
-  );
-
   await ServiceLocator.I.registerSingleton<SingletonNoDependencies>(
     SingletonNoDependencies(),
     interfaces: {SingletonService},
@@ -54,6 +48,37 @@ Future<void> registerDependencies() async {
       ),
     ),
     interfaces: {SingletonService},
+    name: null,
+    key: null,
+    environment: null,
+  );
+
+  await ServiceLocator.I.registerTransient<UserIdInterceptor>(
+    (args) async => UserIdInterceptor(),
+    interfaces: {Interceptor},
+    name: null,
+    key: null,
+    environment: null,
+  );
+
+  await ServiceLocator.I.registerTransient<UnauthorizedInterceptor>(
+    (args) async => UnauthorizedInterceptor(),
+    interfaces: {Interceptor},
+    name: null,
+    key: null,
+    environment: null,
+  );
+
+  await ServiceLocator.I.registerTransient<Dio>(
+    (args) async => ExternalModule.dio(
+      await ServiceLocator.I.resolve(
+        args: args,
+      ),
+      await ServiceLocator.I.resolve(
+        args: args,
+      ),
+    ),
+    interfaces: null,
     name: null,
     key: null,
     environment: null,
