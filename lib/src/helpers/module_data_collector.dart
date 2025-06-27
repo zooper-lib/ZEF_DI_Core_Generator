@@ -164,8 +164,20 @@ class ModuleDataCollector {
     ConstantReader reader,
   ) {
     var returnTypeElement = element.returnType.element;
+    print('[ZEF_DI] Method: \\${element.name}');
+    print('[ZEF_DI] ReturnType: \\${element.returnType}');
+    print('[ZEF_DI] ReturnType.element: \\$returnTypeElement');
+    print('[ZEF_DI] ReturnType.element.runtimeType: \\${returnTypeElement?.runtimeType}');
+
+    // Support for TypeAliasElement (e.g., Dio)
+    if (returnTypeElement is TypeAliasElement) {
+      final aliased = returnTypeElement.aliasedElement;
+      print('[ZEF_DI] Resolved TypeAliasElement to: \\$aliased');
+      returnTypeElement = aliased;
+    }
+
     if (returnTypeElement is! ClassElement) {
-      throw Exception("The return type of the element is not a class.");
+      throw Exception("The return type of the element is not a class. Found: \\${returnTypeElement?.runtimeType}");
     }
 
     final isSingleton = AnnotationProcessor.isRegisterSingleton(reader);
@@ -177,22 +189,13 @@ class ModuleDataCollector {
 
     // Get the import path of the module class (where the method is defined)
     final ImportPath moduleImportPath = ImportPathResolver.determineImportPathForClass(element.enclosingElement3 as ClassElement, buildStep);
-
-    // Get the import path of the return type class
     final ImportPath returnTypeImportPath = ImportPathResolver.determineImportPathForClass(returnTypeElement, buildStep);
 
     // Get the annotation attributes
     final AnnotationAttributes attributes = AnnotationProcessor.getAnnotationAttributes(element);
-
-    // For module methods, we don't use the constructor of the return type
-    // Instead, we use the method itself as the factory method
     final String factoryMethodName = element.name;
     final String moduleClassName = (element.enclosingElement3 as ClassElement).name;
-
-    // The method might be async
     final bool isAsyncResolution = element.returnType.isDartAsyncFuture;
-
-    // Get the dependencies from the method parameters
     final dependencies = ParameterProcessor.getParameters(method: element);
 
     if (isSingleton) {
