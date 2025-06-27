@@ -9,6 +9,8 @@ import 'package:zef_di_core_generator/src/models/registrations/transient_data.da
 abstract class TypeRegistration extends RegistrationData {
   final ImportPath importPath;
   final String className;
+  final String? registeredTypeName; // The type name to use in generics (for module methods)
+  final ImportPath? returnTypeImportPath; // Import path for the return type (for module methods)
   final bool isConstConstructor;
   final bool isAsyncResolution;
   final List<Parameter> dependencies;
@@ -20,6 +22,8 @@ abstract class TypeRegistration extends RegistrationData {
   TypeRegistration({
     required this.importPath,
     required this.className,
+    this.registeredTypeName,
+    this.returnTypeImportPath,
     required this.isConstConstructor,
     required this.isAsyncResolution,
     required this.dependencies,
@@ -50,6 +54,8 @@ abstract class TypeRegistration extends RegistrationData {
       'type': runtimeType.toString(),
       'importPath': importPath.toJson(),
       'className': className,
+      'registeredTypeName': registeredTypeName,
+      'returnTypeImportPath': returnTypeImportPath?.toJson(),
       'isConstConstructor': isConstConstructor,
       'isAsyncResolution': isAsyncResolution,
       'dependencies': dependencies.map((e) => e.toJson()).toList(),

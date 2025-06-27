@@ -18,7 +18,7 @@ class AccessorProcessor {
 
       final positionalParameter = param.isPositional
           ? PositionalParameter(
-              parameterType: param.type.getDisplayString(withNullability: true),
+              parameterType: param.type.getDisplayString(),
               annotationType: annotationType,
               parameterName: param.name,
               name: attributes.name,
@@ -26,7 +26,7 @@ class AccessorProcessor {
               environment: attributes.environment,
             )
           : NamedParameter(
-              parameterType: param.type.getDisplayString(withNullability: true),
+              parameterType: param.type.getDisplayString(),
               annotationType: annotationType,
               parameterName: param.name,
               name: attributes.name,

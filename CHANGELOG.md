@@ -1,3 +1,10 @@
+## 4.0.3
+
+- Fixed automatic import path resolution for external dependencies in modules
+- Removed hardcoded import paths for types like Dio, Http, etc.
+- Generator now automatically determines and imports correct paths for all types
+- Improved module factory method registration to properly call static methods
+
 ## 4.0.2
 
 - Fixed an other comma bug

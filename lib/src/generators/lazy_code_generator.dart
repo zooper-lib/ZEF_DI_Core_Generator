@@ -18,6 +18,7 @@ class LazyCodeGenerator {
 
     return _generateLazyWithFactoryRegistration(
       lazy.className,
+      lazy.registeredTypeName,
       lazy.isAsyncResolution,
       lazy.factoryMethodName,
       dependencies,
@@ -30,6 +31,7 @@ class LazyCodeGenerator {
 
   static String _generateLazyWithFactoryRegistration(
     String className,
+    String? registeredTypeName,
     bool isAsyncResolution,
     String? factoryMethodName,
     String dependencies,
@@ -39,12 +41,12 @@ class LazyCodeGenerator {
     String environment,
   ) {
     final String awaitKeyword = isAsyncResolution ? 'await' : '';
-    final String factoryMethodCall =
-        factoryMethodName == null ? '' : '.$factoryMethodName';
+    final String factoryMethodCall = factoryMethodName == null ? '' : '.$factoryMethodName';
+    final String typeForRegistration = registeredTypeName ?? className;
 
     return '''
-await ServiceLocator.I.registerLazy<$className>(
-    Lazy<$className>(factory: () async => $awaitKeyword $className$factoryMethodCall($dependencies)),
+await ServiceLocator.I.registerLazy<$typeForRegistration>(
+    Lazy<$typeForRegistration>(factory: () async => $awaitKeyword $className$factoryMethodCall($dependencies)),
     $interfaces,
     $name,
     $key,

@@ -8,8 +8,7 @@ import 'package:zef_di_core_generator/src/models/registrations.dart';
 class SingletonCodeGenerator {
   static String generateRegisterFunction(SingletonData instance) {
     // Check if a factory method is provided for singleton creation
-    if (instance.factoryMethodName != null &&
-        instance.factoryMethodName!.isNotEmpty) {
+    if (instance.factoryMethodName != null && instance.factoryMethodName!.isNotEmpty) {
       return _generateWithFactory(instance);
     } else {
       return _generateWithInstance(instance);
@@ -20,8 +19,7 @@ class SingletonCodeGenerator {
     // Generate the parameters string
     String parameters = ArgsCodeGenerator.generate(instance, false);
 
-    final instanceCreation =
-        '${instance.isConstConstructor ? 'const ' : ''} ${instance.className}($parameters)';
+    final instanceCreation = '${instance.isConstConstructor ? 'const ' : ''} ${instance.className}($parameters)';
 
     // Format additional registration parameters
     final interfaces = InterfacesCodeGenerator.generate(instance);
@@ -32,6 +30,7 @@ class SingletonCodeGenerator {
     return _generateInstanceRegistration(
         registrationTypeName: 'Singleton',
         className: instance.className,
+        registeredTypeName: instance.registeredTypeName,
         instanceCreation: instanceCreation,
         interfaces: interfaces,
         name: name,
@@ -41,18 +40,15 @@ class SingletonCodeGenerator {
 
   static String _generateWithFactory(SingletonData instance) {
     // Ensure a factory method name is provided
-    if (instance.factoryMethodName == null ||
-        instance.factoryMethodName!.isEmpty) {
-      throw Exception(
-          'Factory method name must be provided for singleton function registration.');
+    if (instance.factoryMethodName == null || instance.factoryMethodName!.isEmpty) {
+      throw Exception('Factory method name must be provided for singleton function registration.');
     }
 
     // Generate the parameters string
     final parameters = ArgsCodeGenerator.generate(instance, true);
 
     // Construct the function call to the factory method with resolved dependencies and named arguments
-    String functionCall =
-        '${instance.className}.${instance.factoryMethodName!}($parameters)';
+    String functionCall = '${instance.className}.${instance.factoryMethodName!}($parameters)';
 
     // Format additional registration parameters
     final interfaces = InterfacesCodeGenerator.generate(instance);
@@ -63,6 +59,7 @@ class SingletonCodeGenerator {
     return _generateFactoryRegistration(
       isAsyncResolution: instance.isAsyncResolution,
       className: instance.className,
+      registeredTypeName: instance.registeredTypeName,
       instanceCreation: functionCall,
       interfaces: interfaces,
       name: name,
@@ -74,14 +71,17 @@ class SingletonCodeGenerator {
   static String _generateInstanceRegistration({
     required String registrationTypeName,
     required String className,
+    String? registeredTypeName,
     required String instanceCreation,
     required String interfaces,
     required String name,
     required String key,
     required String environment,
   }) {
+    final String typeForRegistration = registeredTypeName ?? className;
+
     return '''
-await ServiceLocator.I.register$registrationTypeName<$className>(
+await ServiceLocator.I.register$registrationTypeName<$typeForRegistration>(
     $instanceCreation,
     $interfaces,
     $name,
@@ -95,6 +95,7 @@ await ServiceLocator.I.register$registrationTypeName<$className>(
   static String _generateFactoryRegistration({
     required bool isAsyncResolution,
     required String className,
+    String? registeredTypeName,
     required String instanceCreation,
     required String interfaces,
     required String name,
@@ -102,9 +103,10 @@ await ServiceLocator.I.register$registrationTypeName<$className>(
     required String environment,
   }) {
     final String awaitKeyword = isAsyncResolution ? 'await' : '';
+    final String typeForRegistration = registeredTypeName ?? className;
 
     return '''
-await ServiceLocator.I.registerSingletonFactory<$className>(
+await ServiceLocator.I.registerSingletonFactory<$typeForRegistration>(
     (Map<String, dynamic> args) async => $awaitKeyword $instanceCreation,
     $interfaces,
     $name,

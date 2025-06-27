@@ -10,6 +10,8 @@ class LazyData extends TypeRegistration {
   LazyData({
     required super.importPath,
     required super.className,
+    super.registeredTypeName,
+    super.returnTypeImportPath,
     required super.isConstConstructor,
     required super.isAsyncResolution,
     required this.returnType,
@@ -24,17 +26,15 @@ class LazyData extends TypeRegistration {
   factory LazyData.fromJson(Map<String, dynamic> json) {
     final importPath = ImportPath.fromJson(json['importPath']);
 
-    List<SuperTypeData> interfaces = (json['interfaces'] as List)
-        .map((e) => SuperTypeData.fromJson(e))
-        .toList();
+    List<SuperTypeData> interfaces = (json['interfaces'] as List).map((e) => SuperTypeData.fromJson(e)).toList();
 
-    final dependencies = (json['dependencies'] as List)
-        .map((e) => Parameter.fromJson(e))
-        .toList();
+    final dependencies = (json['dependencies'] as List).map((e) => Parameter.fromJson(e)).toList();
 
     return LazyData(
       importPath: importPath,
       className: json['className'],
+      registeredTypeName: json['registeredTypeName'],
+      returnTypeImportPath: json['returnTypeImportPath'] != null ? ImportPath.fromJson(json['returnTypeImportPath']) : null,
       isConstConstructor: json['isConstConstructor'],
       isAsyncResolution: json['isAsyncResolution'],
       returnType: json['returnType'],
